@@ -17,10 +17,7 @@ class PackItemsService(Node):
         param = ParamGetter()
         temp = param.get_ros2_param('pack_list')
 
-        temp = temp.replace("String value is: ", "")
-        temp = temp.replace("\n", "")
-        # Den String bereinigen und die Klammern entfernen
-        cleaned_string = temp.strip("'[]")
+        cleaned_string = temp.replace("String value is: ", "").replace("'", "").replace(" ", "").replace("[", "").replace("]","").replace("\n", "")
 
         # Den String in eine Liste aufteilen
         result_list = cleaned_string.split(',')

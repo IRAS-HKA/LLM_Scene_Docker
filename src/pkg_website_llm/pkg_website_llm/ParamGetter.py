@@ -42,7 +42,7 @@ class ParamGetter:
             
     def get_ros2_param(self,var_name):
         
-        while(self.checkIfParamIsInUse()):
+        while(self.checkIfParamIsInUse() or not self.checkIfNodeAvailable("Parameter_Setter")):
             time.sleep(0.500) 
             
         # Der genaue Terminalaufruf
@@ -65,11 +65,13 @@ class ParamGetter:
 
     def set_ros2_param(self,var_name, value):
         
-        while(self.checkIfParamIsInUse()):
+        while(self.checkIfParamIsInUse() or not self.checkIfNodeAvailable("Parameter_Setter")):
             time.sleep(0.500)
              
         print("__SET Parameter", time.time())        
         
+        print("zu setzender Parameter: ", var_name)
+        print("zu setzender Wert: ", value)
         # Der genaue Terminalaufruf
         command = ['ros2', 'param', 'set', '/LLM/Parameter_Setter', var_name, value]
         print(command)

@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Rufe fetchData alle 10 Sekunden auf
-    setInterval(fetchData, 30000);
+    setInterval(fetchData, 10000);
 
     // Initialer Datenabruf beim Laden der Seite
     fetchData();
@@ -172,26 +172,39 @@ function updateTable(data) {
     const tbody = document.querySelector('#myTable tbody');
     tbody.innerHTML = ''; // Lösche vorhandene Tabellenzeilen
 
-    const itemList = data.package_content.split(', ');
-    const additionalContent = data.cylinder_ids.split(' ');
 
+    console.log(data.package_content);
+    console.log(data.cylinder_ids);
 
-    for (i in itemList) {
-        //alert(itemList[i])
+    const itemList = data.package_content;
+    const additionalContent = data.cylinder_ids;
+
+    if (Array.isArray(itemList)){
+
+        for (i in itemList) {
+            //alert(itemList[i])
+            const row = document.createElement('tr');
+            tbody.appendChild(row);
+            const cellKey = document.createElement('tr');
+            cellKey.innerText = itemList[i];
+            row.appendChild(cellKey);
+
+            // Zweite Spalte
+            const cellValue = document.createElement('td');
+            if (additionalContent[i] == undefined) {
+                additionalContent[i] = ""
+            }
+            cellValue.innerText = additionalContent[i];
+            row.appendChild(cellValue);
+
+        }
+    } 
+    else{
         const row = document.createElement('tr');
         tbody.appendChild(row);
         const cellKey = document.createElement('tr');
-        cellKey.innerText = itemList[i];
+        cellKey.innerText = "NO DATA";
         row.appendChild(cellKey);
-
-        // Zweite Spalte
-        const cellValue = document.createElement('td');
-        if (additionalContent[i] == undefined) {
-            additionalContent[i] = ""
-        }
-        cellValue.innerText = additionalContent[i];
-        row.appendChild(cellValue);
-
     }
 }
 

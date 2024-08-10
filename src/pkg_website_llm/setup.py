@@ -32,6 +32,7 @@ setup(
             'user_input_service = pkg_website_llm.UserInputServiceSender:main',
             'param_setter = pkg_website_llm.ParamSetter:main',
             'param_getter = pkg_website_llm.ParamGetter:main',
+            'delete_parameter = pkg_website_llm.DeleteParameterService:main',
         ],
     },
 )

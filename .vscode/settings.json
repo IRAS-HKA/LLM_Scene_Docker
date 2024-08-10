@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "/home/maurice/Dokumente/2semester_HKA/FuE 2/llm_docker/llm_scene_docker/src/llm_interfaces"
+    "cmake.sourceDirectory": "/home/maurice/Dokumente/2semester_HKA/FuE 2/llm_docker/llm_scene_docker/src/llm_interfaces",
+    "ros.distro": "humble"
 }

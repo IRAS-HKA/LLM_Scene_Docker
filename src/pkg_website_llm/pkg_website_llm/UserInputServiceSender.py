@@ -29,12 +29,12 @@ class UserInputService(Node):
             if user_input != "" and user_input != 'No Input':
                 response.user_input = user_input
                 self.get_logger().info('Outgoing User Input %s' % user_input)
-                break
+                return response
             else:
                 time.sleep(5)
                 self.get_logger().info('NO User Input available yet. Waiting for data...')
 
-        return response
+        
     
     def shutdown_node(self):
         rclpy.shutdown()

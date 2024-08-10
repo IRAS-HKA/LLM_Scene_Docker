@@ -33,13 +33,20 @@ def generate_launch_description():
             output='screen',
             name='user_input_sender'
         ),
+        # Node(
+        #     package='pkg_website_llm',
+        #     namespace='LLM',
+        #     executable='feedback_website_llm',
+        #     output='screen',
+        #     name='feedbackwebsite'
+        # ),
         Node(
             package='pkg_website_llm',
             namespace='LLM',
-            executable='feedback_website_llm',
+            executable='delete_parameter',
             output='screen',
-            name='feedbackwebsite'
-        )      
+            name='delete_parameter_service'
+        )           
 
 
     ])
