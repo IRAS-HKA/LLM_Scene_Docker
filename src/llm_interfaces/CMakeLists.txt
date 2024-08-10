@@ -13,7 +13,6 @@ find_package(ament_cmake REQUIRED)
 
 find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(std_srvs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(object_detector_tensorflow_interfaces REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
@@ -26,7 +25,6 @@ set(DEPENDENCIES
   "geometry_msgs"
   "aip_grasp_planning_interfaces"
   "aip_packing_planning_interfaces"
-  "std_srvs"
 )
 #  "object_detector_tensorflow_interfaces"
 
@@ -37,6 +35,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/PackItems.srv"
   "srv/WebsiteFeedback.srv"
   "srv/SetGetAllTypes.srv"
+  "srv/DeleteParameters.srv"
   DEPENDENCIES ${DEPENDENCIES} # Add packages that above messages depend on, in this case geometry_msgs for Sphere.msg
 )
 

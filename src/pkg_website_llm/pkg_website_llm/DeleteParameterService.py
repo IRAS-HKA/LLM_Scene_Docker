@@ -1,15 +1,15 @@
 import rclpy
 from rclpy.node import Node
 
-from std_srvs.srv import Empty 
 from .ParamGetter import ParamGetter
+from llm_interfaces.srv import DeleteParameters
 
 
 class MinimalService(Node):
 
     def __init__(self):
         super().__init__('delete_parameter_server')
-        self.srv = self.create_service(Empty, 'delete_parameters', self.save_data_for_website)
+        self.srv = self.create_service(DeleteParameters, 'delete_parameters', self.save_data_for_website)
         self.get_logger().info('Service was initialized')
 
     def save_data_for_website(self, request,response):
