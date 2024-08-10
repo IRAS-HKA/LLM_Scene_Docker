@@ -25,7 +25,7 @@ from pkg_website_llm.ParamGetter import ParamGetter
 class LLMActionServer(Node):
 
     def __init__(self):
-        super().__init__('llm_action_server')
+        super().__init__('llm_action_server_node')
         self._action_server = ActionServer(
             self,
             LLM,    
@@ -72,15 +72,6 @@ class LLMActionServer(Node):
         result.llmoutput = str(result_dict)
         
         
-        # # Send the result to the website
-        # SelectedItems.clearPackList()
-        # counter = 0
-        # for i in result_dict:
-        #     counter += 1
-        #     print("Result:",counter, i)
-        #     SelectedItems.appendPackList(i)
-        #     print("SelectedItems:", SelectedItems.getPackList())
-        
         try:
             param = ParamGetter()
             mod_user_input = "'" + str(result_dict)  + "'"
@@ -89,6 +80,7 @@ class LLMActionServer(Node):
             self.get_logger().error(f'Saving parameter pack_list failed {e}')
         
         self.get_logger().info('LLM was executed successfully!')
+        self.get_logger().info('Result: {0}'.format(result.llmoutput))
      
         return result
 

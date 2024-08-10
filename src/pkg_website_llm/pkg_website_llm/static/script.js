@@ -10,14 +10,15 @@ document.addEventListener('DOMContentLoaded', function () {
             userInput = "";
         }
 
-        let data = { user_input: userInput };
+        let data_request = { user_input: userInput };
 
         fetch('/button_click', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data_request)
+
         })
             .then(response => response.json())
             .then(data => {
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch((error) => {
+                console.error("FUCKKKKKKK")
                 console.error('Error:', error);
             });
 

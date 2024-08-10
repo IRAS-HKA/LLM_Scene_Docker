@@ -28,32 +28,21 @@ class PackItemsService(Node):
         return result_list
 
     def pack_items_callback(self, request, response):
-        #self.get_logger().info('Packlist:'.format(SelectedItems.getPackList()))
+
         param = ParamGetter()
         while (True):
-            #if (SelectedItems.getPackList() != [] and UserInput.getApproval() == True):
-            if (param.get_ros2_param('pack_list') != ""):
+
+            if ("No Input" not in param.get_ros2_param('pack_list') and "True" in param.get_ros2_param('user_approval')):
                 self.get_logger().info('Data available yet.')
-                # response.objects_to_pick = SelectedItems.getPackList()
-                # response.objects_to_pick = ['Box_Gluehlampe', 'Box_Wischblatt','Keilriemen_gross', 'Box_Bremsbacke', 'Keilriemen_klein','Box_Messwertgeber']
-                #response.objects_to_pick = ['Box_Wischblatt']
-                
-                
+
                 response.objects_to_pick = self.formatOutput()
                 self.get_logger().info("TYPE objects_to_pick: {}".format(type(response.objects_to_pick)))
                 self.get_logger().info("RESPONSE objects_to_pick: {}".format(response.objects_to_pick))
-                
-                # response.objects_to_pick = SelectedItems.getStandardConfig()                
-                
-                #self.get_logger().info('Packlist:'.format(SelectedItems.getPackList()))
-                #response.objects_to_pick = ['Box_Gluehlampe', 'Box_Wischblatt','Keilriemen_gross', 'Box_Bremsbacke', 'Keilriemen_klein', 'Tuete']
+
                 return response
             else:
                 time.sleep(5)
                 self.get_logger().info('Data not available yet. Waiting for data...')
-                #self.get_logger().info('Packlist:'.format(SelectedItems.getPackList()))
-                #self.get_logger().info('Approval USer'.format(UserInput.getApproval()))
-
 
                 
     def stop_spin(self):

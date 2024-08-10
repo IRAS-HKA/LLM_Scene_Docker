@@ -18,9 +18,9 @@ class MinimalService(Node):
             
 
         param = ParamGetter()
-        param.set_ros2_param('user_input', "")
-        param.set_ros2_param('pack_list', "")
-        param.set_ros2_param('user_approval', False)
+        param.set_ros2_param('user_input', 'No Input')
+        param.set_ros2_param('pack_list', 'No Input')
+        param.set_ros2_param('user_approval', "False")
 
 
         self.get_logger().info('DELETED userinput, pack_list and user_approval')

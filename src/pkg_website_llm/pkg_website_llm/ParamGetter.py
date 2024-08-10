@@ -47,14 +47,14 @@ class ParamGetter:
             
         # Der genaue Terminalaufruf
         command = ['ros2', 'param', 'get', '/LLM/Parameter_Setter', var_name]
-        print(command)
+        #print(command)
 
         try:
             # Den Befehl ausführen und das Ergebnis erfassen
             result = subprocess.run(command, capture_output=True, text=True, check=True)
                     
             # Die Ausgabe des Befehls ausgeben
-            print(result.stdout)
+            #print(result.stdout)
 
             # Falls notwendig, können Sie auch das Ergebnis zurückgeben
             return result.stdout
@@ -68,13 +68,13 @@ class ParamGetter:
         while(self.checkIfParamIsInUse() or not self.checkIfNodeAvailable("Parameter_Setter")):
             time.sleep(0.500)
              
-        print("__SET Parameter", time.time())        
+        #print("__SET Parameter", time.time())        
         
-        print("zu setzender Parameter: ", var_name)
-        print("zu setzender Wert: ", value)
+        #print("zu setzender Parameter: ", var_name)
+        #print("zu setzender Wert: ", value)
         # Der genaue Terminalaufruf
         command = ['ros2', 'param', 'set', '/LLM/Parameter_Setter', var_name, value]
-        print(command)
+        #print(command)
         time.sleep(0.30)
 
         try:
@@ -82,7 +82,7 @@ class ParamGetter:
             result = subprocess.run(command, capture_output=True, text=True, check=True)
                     
             # Die Ausgabe des Befehls ausgeben
-            print(result.stdout)
+            #print(result.stdout)
 
             # Falls notwendig, können Sie auch das Ergebnis zurückgeben
             return result.stdout

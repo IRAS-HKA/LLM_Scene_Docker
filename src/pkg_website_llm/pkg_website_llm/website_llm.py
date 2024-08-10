@@ -51,7 +51,6 @@ def button_click():
     user_input = data.get('user_input', '')
     print(f"Anfrage (von webseite_llm): {user_input}")
     
-    #UserInput.setUserInput(user_input)
     parameter_setter = ParamGetter()
 
     # String wird in der Website gespeichert!
@@ -61,38 +60,33 @@ def button_click():
     if not rclpy.ok():
         rclpy.init(args=None)
     
-    # This is to transport the user input to the behavior tree
-    
-    # if hasattr(None,'server_website_only'):
-    #     server_website_only.shutdown_node()
-    # else:
-    #     #rclpy.init(args=None)
-    #     server_website_only = UserInputService()
-    #     rclpy.spin(server_website_only)
     
     # This is to call the LLM Action server directly
     
-    if hasattr(None,'server'):
-        server.shutdown_node()
-    else:
-        server = LLMActionClient()
-        future = server.send_goal(user_input)
-        #print("Datenobjekt Typ Future", type(future))
-        print("Input:", user_input)
+    server = LLMActionClient()
+    #future = server.send_goal(user_input)
+    future = server.send_goal_async(user_input)
+    #print("Datenobjekt Typ Future", type(future))
+    print("Input:", user_input)
 
 
-        rclpy.spin(server)
+    #rclpy.spin(server)
+    rclpy.spin_until_future_complete(server, future)
+    result = server.get_result()
 
-        result = server.get_result()
-        # SelectedItems.appendPackList(result)
-        SelectedItems.setPackList(result)
-        print("Ergebnis:", result)
-        
-        if "BEFEHL" in user_input:
-            result = "Diese Objekte werden gepackt: " + result
-        else :
-            result = "Diese Objekte wurden gefunden: " + result
-
+    print("Ergebnis:", result)
+    
+    if "BEFEHL" in user_input:
+        result = "Diese Objekte werden gepackt: " + result
+    elif "SzenenChat" in user_input:
+        result = "Diese Objekte wurden gefunden: " + result
+    else :
+        result = ""+ result 
+    
+   #rclpy.init()  # Muss aufgerufen werden, bevor irgendein ROS2-Code ausgeführt wird
+    server.destroy_node() 
+    rclpy.shutdown()
+           
     return jsonify({"message": "Button was clicked!", "received": result})
 
 @app.route('/button_approve', methods=['POST'])
@@ -106,8 +100,8 @@ def button_approve():
     print("PackItemsService Node erstellt!")
     parameter_setter = ParamGetter()
     parameter_setter.set_ros2_param('user_approval',"True")
-    #self.get_logger().info('PackItemsService Node erstellt!')
-    #print("Packliste", SelectedItems.getPackList())
+
+
     pack_server.spinNode()
 
 
@@ -119,19 +113,13 @@ def button_disapprove():
     UserInput.setApproval(False)
     print("Meinung des Users:", UserInput.getApproval())
     parameter_setter = ParamGetter()
-    parameter_setter.set_ros2_param('user_approval',bool("False"))
+    parameter_setter.set_ros2_param('user_approval', "False")
 
 
     return jsonify({"message": "Disapproved by user", "received": "Disapproval"})
 
 @app.route('/get_data')
 def get_data():
-    # data = {
-    #     'package_content': 'New Package Sequence',
-    #     'cylinder_ids': 'New Cylinder ID',
-    #     'grasp_pose': 'New Grasp Pose',
-    #     'place_pose': 'New Place Pose'
-    # }
     
     parameter_getter = ParamGetter()
 
@@ -160,22 +148,15 @@ def get_data():
             #'cylinder_ids': parameter_getter.get_ros2_param('cylinder_Ids'),   
         }
         
-        
 
-    #WebsiteFeedbackData.setPackage("Box_Wischblatt, Keilriemen_groß, Keilriemen_klein")
-    #WebsiteFeedbackData.setCylinderIds("15464 2464")
-
-
-    #print("DATEN WURDEN Abgerufen")
-    #print(data)
     return jsonify(data)
 
 
 def main():
     print('Hi from LLM_Website. It is starting up.')
 
+    #app.run(debug=True, host='127.0.0.1', port=8080)
     app.run(debug=True, host='127.0.0.1', port=8080)
-
    
 
 if __name__ == '__main__':

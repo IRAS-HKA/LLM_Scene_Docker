@@ -10,15 +10,13 @@ class LLMActionClient(Node):
     def __init__(self):
         super().__init__('llm_action_client')
         self._action_client = ActionClient(self, LLM, 'llm_action_server')
-        print("Action Client initialized")
-        userInput = UserInput.getUserInput()
-        self.get_logger().info('UserInput: {0}'.format(userInput))
-        self.get_logger().info('ENDE INIT LLMActionClient')
+
+        self.get_logger().info('Action Client initialized')
 
     def send_goal(self, user_input):
         self.get_logger().info('ANFANG send goal')
         
-        print("User Input: ", user_input)
+        self.get_logger().info('User Input in send_goal: {0}'.format(user_input))
         request_msg = LLM.Goal()
         request_msg.userinput = str(user_input)
 
@@ -74,7 +72,6 @@ def main(args=None):
     userInput = UserInput.getUserInput()
     print(userInput)
     action_client.get_logger().info('UserInput: {0}'.format(userInput)) 
-    # userInput = "Wo befindet sich das Box_Wischblatt?"
 
     action_client.send_goal(userInput)
 

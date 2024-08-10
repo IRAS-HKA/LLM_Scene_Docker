@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch((error) => {
+                console.error("FUCKKKKKKK")
+                console.error(data)
                 console.error('Error:', error);
             });
 
