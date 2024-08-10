@@ -7,6 +7,10 @@ It also contains the website which is used to get the user input.
 
 ## How to run this container
 
+## Start Website, LLM, ParamSetter, FeedbackService and UserInputNode
+
+cd && cd ros_ws && colcon build && source install/setup.bash && cd src/pkg_website_llm && cd launch && clear && ros2 launch launch_all_services.py
+
 ## Start Website and LLM via Launchfile
 
 cd && cd ros_ws && colcon build && source install/setup.bash && cd src/pkg_website_llm && cd launch && clear && ros2 launch launch_WebsiteAndLLM.py
@@ -48,9 +52,9 @@ ros2 run pkg_website_llm website_llm
 1. Connect to Docker
 2. enter on the terminal
    
-ros2 service call /user_interaction llm_interfaces/srv/UserInteraction {''}
+ros2 service call /LLM/user_interaction llm_interfaces/srv/UserInteraction {''}
 
-ros2 service call scene_interpretation llm_interfaces/srv/SceneInterpretation "{user_input: 'TEST'}"
+ros2 service call /LLM/scene_interpretation llm_interfaces/srv/SceneInterpretation "{user_input: 'TEST'}"
 
 
 Please not in the {}-brackets should be the ObjectDetections, so that the Website can display them.

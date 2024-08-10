@@ -3,6 +3,7 @@ import rclpy
 from rclpy.node import Node
 from .UserInput import UserInput
 from threading import Timer
+import time
 
 from .ParamGetter import ParamGetter
 
@@ -20,6 +21,7 @@ class UserInputService(Node):
         
         param = ParamGetter()
         while True:
+
             user_input = param.get_ros2_param("user_input")
             user_input = user_input.replace("String value is:", "")
             user_input = user_input.strip()

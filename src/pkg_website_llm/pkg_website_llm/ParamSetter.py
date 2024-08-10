@@ -6,7 +6,6 @@ from rcl_interfaces.msg import Parameter, ParameterType
 class ParameterServer(Node):
     def __init__(self):
         super().__init__('parameter_server')
-        self.declare_parameter('MauriceVariable', 'default_value')
         self.declare_parameter('user_input', 'No Input')
         self.declare_parameter('user_approval', False)
         self.declare_parameter('pack_list', '')
@@ -20,6 +19,7 @@ class ParameterServer(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = ParameterServer()
+    rclpy.spin(node)
     rclpy.spin(node)
     rclpy.shutdown()
 

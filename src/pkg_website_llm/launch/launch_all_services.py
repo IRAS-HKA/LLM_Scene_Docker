@@ -5,13 +5,13 @@ import os
 
 def generate_launch_description():
     return LaunchDescription([
-        Node(
-            package='pkg_website_llm',
-            namespace='LLM',
-            executable='param_setter',
-            output='screen',
-            name='Parameter_Setter'
-        ),        
+        # Node(
+        #     package='pkg_website_llm',
+        #     namespace='LLM',
+        #     executable='param_setter',
+        #     output='screen',
+        #     name='Parameter_Setter'
+        # ),        
         Node(
             package='pkg_website_llm',
             namespace='LLM',

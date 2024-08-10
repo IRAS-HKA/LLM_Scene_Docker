@@ -17,14 +17,15 @@ class MinimalService(Node):
     def save_data_for_website(self, request,response):
         self.get_logger().info('Incoming request received')
                 
-        self.get_logger().info(f'Cylidner IDs: {request.cylinder_ids}')       
+        self.get_logger().info(f'Cylinder IDs: {request.cylinder_ids}')      
+        self.get_logger().info(f'Cylinder IDs: {type(request.cylinder_ids)}')  
         
         self.get_logger().info(f'Package: {request.package}')
         
         #WebsiteFeedbackData.setCylinderIds(str(request.cylinder_ids.cylinder_ids))       
         #WebsiteFeedbackData.setPackage(str(request.package))
         param = ParamGetter()
-        param.set_ros2_param('cylinder_Ids', str(request.cylinder_ids.cylinder_ids))
+        param.set_ros2_param('cylinder_Ids', str(request.cylinder_ids))
         param.set_ros2_param('package', str(request.package))
         
         

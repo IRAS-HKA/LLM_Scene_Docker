@@ -16,6 +16,7 @@ class PackItemsService(Node):
     def formatOutput(self):
         param = ParamGetter()
         temp = param.get_ros2_param('pack_list')
+
         temp = temp.replace("String value is: ", "")
         temp = temp.replace("\n", "")
         # Den String bereinigen und die Klammern entfernen

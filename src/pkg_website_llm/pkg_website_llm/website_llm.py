@@ -14,6 +14,7 @@ from .ParamGetter import ParamGetter
 
 import os
 import glob
+import re
 
 # Assuming this script is located in ros_ws/src/pkg_website_llm/pkg_website_llm/website_llm.py
 # Get the absolute path to the directory containing this script
@@ -131,17 +132,40 @@ def get_data():
     #     'grasp_pose': 'New Grasp Pose',
     #     'place_pose': 'New Place Pose'
     # }
-    WebsiteFeedbackData.setPackage("Box_Wischblatt, Keilriemen_groß, Keilriemen_klein")
-    WebsiteFeedbackData.setCylinderIds("15464 2464")
-
-
-
     
-    data = {
-        'package_content': WebsiteFeedbackData.getPackage(),
-        'cylinder_ids': WebsiteFeedbackData.getCylinderIds(),
-        'picture': WebsiteFeedbackData.getImagePath(),
-    }
+    parameter_getter = ParamGetter()
+
+    if parameter_getter.checkIfNodeAvailable("/LLM/Parameter_Setter"):
+        print("Node gefunden!")
+        class_id_packages =  parameter_getter.get_ros2_param('package')
+        class_names = re.findall(r"class_name='(.*?)'", class_id_packages)
+        print(class_id_packages)
+        cylinder_Ids_string =  parameter_getter.get_ros2_param('cylinder_Ids')
+        cylinder_ids = re.findall(r"cylinder_ids=\[(.*?)\]", cylinder_Ids_string)
+        cylinder_ids_lists = [list(map(int, ids.split(','))) for ids in cylinder_ids]
+
+        #'picture': WebsiteFeedbackData.getImagePath(),
+        data = {
+            'package_content': class_names,
+            'cylinder_ids': cylinder_ids_lists,
+            #'package_content': parameter_getter.get_ros2_param('package'),
+            #'cylinder_ids': parameter_getter.get_ros2_param('cylinder_Ids'),   
+        }
+    else:
+        print("Node NICHT gefunden!")
+        data = {
+            'package_content': "NO DATA",
+            'cylinder_ids': "NO DATA",
+            #'package_content': parameter_getter.get_ros2_param('package'),
+            #'cylinder_ids': parameter_getter.get_ros2_param('cylinder_Ids'),   
+        }
+        
+        
+
+    #WebsiteFeedbackData.setPackage("Box_Wischblatt, Keilriemen_groß, Keilriemen_klein")
+    #WebsiteFeedbackData.setCylinderIds("15464 2464")
+
+
     #print("DATEN WURDEN Abgerufen")
     #print(data)
     return jsonify(data)

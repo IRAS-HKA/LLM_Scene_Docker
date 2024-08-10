@@ -8,6 +8,13 @@ def generate_launch_description():
         Node(
             package='pkg_website_llm',
             namespace='LLM',
+            executable='param_setter',
+            output='screen',
+            name='Parameter_Setter'
+        ),
+        Node(
+            package='pkg_website_llm',
+            namespace='LLM',
             executable='feedback_website_llm',
             output='screen',
             name='feedbackwebsite'

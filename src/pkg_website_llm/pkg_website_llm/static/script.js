@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Rufe fetchData alle 10 Sekunden auf
-    setInterval(fetchData, 10000);
+    setInterval(fetchData, 30000);
 
     // Initialer Datenabruf beim Laden der Seite
     fetchData();
