@@ -31,7 +31,7 @@ class UserInputService(Node):
                 self.get_logger().info('Outgoing User Input %s' % user_input)
                 return response
             else:
-                time.sleep(5)
+                time.sleep(2)
                 self.get_logger().info('NO User Input available yet. Waiting for data...')
 
         

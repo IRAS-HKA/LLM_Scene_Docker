@@ -6,11 +6,10 @@ import os
 def generate_launch_description():
     return LaunchDescription([
         Node(
-            package='pkg_llm_docker',
+            package='pkg_website_llm',
             namespace='LLM',
-            executable='llm_action_server',
+            executable='pack_item_server',
             output='screen',
-            name='LLM1'
+            name='pack_item_server'
         ),
-        
     ])

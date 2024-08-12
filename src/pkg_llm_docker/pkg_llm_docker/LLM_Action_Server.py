@@ -106,6 +106,8 @@ def main(args=None):
     action_server.get_logger().info('ACTION beendet')
     
     action_server.get_logger().info('Nachm Shutdown von ACTION')
+    action_server.destroy_node()
+    rclpy.shutdown()
 
 
 

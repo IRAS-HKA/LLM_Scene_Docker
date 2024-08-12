@@ -38,7 +38,7 @@ class PackItemsService(Node):
                 response.objects_to_pick = self.formatOutput()
                 self.get_logger().info("TYPE objects_to_pick: {}".format(type(response.objects_to_pick)))
                 self.get_logger().info("RESPONSE objects_to_pick: {}".format(response.objects_to_pick))
-
+                param.set_ros2_param('user_approval', 'False')
                 return response
             else:
                 time.sleep(5)
