@@ -16,63 +16,87 @@
 </head>
 <section class="layout">
     <div class="header">
-        <h1 style="color: white">AIP Webseite</h1>
+        <h1 style="color: white">Automated Item Picking - Large Language Model</h1>
     </div>
 
     <div class="main">
         <div class="picture-container" style="color: white">
             <h2 style="color: white" >Image of Box Content</h2>
             <!-- <img id="image" src="Hintergrund.png" alt="Image of the box" width="480" height="480"> -->
-            <img id="image" src="{{ url_for('static', filename='Hintergrund.png') }}" alt="Image of the box" width="480" height="480">
+            <img id="image" src="Hintergrund.png" alt="Image of the box" width="480" height="480">
 
         </div>
+
         <div class="picture-container" style="color: white">
             <h2 style="color: white" >Pack Planning</h2>
             <img id="image" src="Platzhalter.png" alt="placeholder" width="480" height="480">
-
         </div>
 
         <div class="chat-container" style="color: white">
             <div class="chat-box" id="chat-box">
-                <div class="message bot-message">Hallo! Wie kann ich Ihnen helfen?</div>
+                <div class="message bot-message">Hallo, Ich bin das LLM von AIP! Wie kann ich dir helfen?</div>
             </div>
+            
             <div class="input-container">
-                <input type="text" id="user-input" placeholder="Für einen expliziten Befehl: Tippen Sie 'BEFEHL:' vor ihrer Eingabe">
+                <input type="text" id="user-input" placeholder="Sende eine Nachricht...">
+                <select id="dropdown-menu">
+                    <option value="chat">Chat</option>
+                    <option value="scenechat">Szenen-Chat</option>
+                    <option value="command">Befehl</option>
+                </select>
                 <button id="send-btn"> Senden</button>
                 <!-- onclick="buttonClick()" -->
             </div>
+
         </div>
+
     </div>
+    
     <div class="main_2nd_row">
-            <div class="feedback-container" style="color: white">
-                <table id="myTable">
-                    <thead>
-                        <tr>
-                            <th>PackageSequence</th>
-                            <th>Cylinder_ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Dynamische Inhalte werden hier eingefügt -->
-                    </tbody>
-                </table>
-                
-            </div>
-            <div class="consent-box" id="consent_user">
-                <button id="disapprove-btn"> Ablehnen</button>
-                <button id="approve-btn"> Bestätigen</button>
-            </div>
+        <div class="feedback-container" style="color: white">
+            <table id="myTable">
+                <thead>
+                    <tr>
+                        <th>Packreihenfolge</th>
+                        <th>Zylinder IDs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamische Inhalte werden hier eingefügt -->
+                </tbody>
+            </table> 
+        </div>
+
+        <div class="running-nodes" style="color: white">
+            <table id="myTable1">
+                <thead>
+                    <tr>
+                        <th>Laufende Nodes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamische Inhalte werden hier eingefügt -->
+                </tbody>
+            </table>>
+        </div>
+
+        <div class="consent-box" id="consent_user">
+            <button id="disapprove-btn"> Ablehnen</button>
+            <button id="approve-btn"> Bestätigen</button>
+        </div>
+
     </div>
+
     <div class="footer">
-        <h3 style="color: white">Forschung und Entwicklungsprojekt 2</h3>
-        <h3 style="color: white">Von Raphael Aberle, Andreas Schmitt, Leo Schäfer, Maurice Droll und Eshan Savla </h1>
-
-
-
+        <img src="HKA_Logo.png" style="width: 400px; height: auto; float: right;">
+        <h3 style="color: white; font-size: larger;">Forschung & Entwicklungsprojekt 2</h3>
+        <h3 style="color: white; font-size: small;" >Von Raphael Aberle, Andreas Schmitt, Leo Schäfer, Maurice Droll und Eshan Savla </h1>
+        <h3 style="color: white; font-size: small;">Hochschule Karlsruhe</h3>
     </div>
-  </section>
   
-<body style="background-image: url('./Hintergrund.png');">
+  </section>
+
+<body>
 
 
 

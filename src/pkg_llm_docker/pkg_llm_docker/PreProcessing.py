@@ -83,62 +83,50 @@ class PreProcessing(Node):
         prompt = 'Detektierte Objekte: \n'
         
         
-        # classname = ["Box_Wischblatt", "Keilriemen_gross", "Box_Messwertgeber", "Keilriemen_klein"]
-        # center_x = [543.5, 629.5, 800.0, 500.4]
-        # center_y = [608.5, 405.5, 524.0, 320.1]
-        # center_z=  [0.01, 0.001, 0.002, 0.01]
-        classname = []
-        center_x = []
-        center_y = []
-        for detection in self.detections:
-            classname.append(detection.class_name)
-            center_x.append(detection.center.x)
-            center_y.append(detection.center.y)
+        classname = ["Box_Wischblatt", "Keilriemen_gross", "Box_Messwertgeber", "Keilriemen_klein"]
+        center_x = [543.5, 629.5, 800.0, 500.4]
+        center_y = [608.5, 405.5, 524.0, 320.1]
+        center_z=  [0.01, 0.001, 0.002, 0.01]
+        # classname = []
+        # center_x = []
+        # center_y = []
+        # for detection in self.detections:
+        #     classname.append(detection.class_name)
+        #     center_x.append(detection.center.x)
+        #     center_y.append(detection.center.y)
         object_mass,length_mass,width_mass,height_mass = PreProcessing.loadAdditionalInformationYAML(self,classname)
         
-        #sceneDescription = fakeOdtf.detection_string
-        #sceneDescription =  ast.literal_eval(fakeOdtf.data)
-        #for i in range(0, len(sceneDescription)):
+
         for i in range(len(classname)):
-            #self.get_logger().info(sceneDescription[i].class_name)
             prompt += f'{i+1}. {classname[i]}: Position x= {center_x[i]} y={center_y[i]} Gewicht: {object_mass[i]} kg Länge: {length_mass[i]} mm Breite: {width_mass[i]} mm Höhe: {height_mass[i]} mm \n' # z= {center_z[i]}
 
-            #prompt += f'{i+1}. {sceneDescription[i].class_name} mit der Eigenschaft x= {sceneDescription[i].center.x} y={sceneDescription[i].center.y} z= {sceneDescription[i].center.z}'
 
-
-
-        print("Der ausgelesene User Input ist: ", userInput)
-        if "BEFEHL:" in userInput:
-            userInput = userInput.replace("BEFEHL:","")
+        #if "BEFEHL:" in user_command:
+        #    userInput = userInput.replace("BEFEHL:","")
         
-        if chatmodus == "Generate" and userInput !="":
+        chatmodus = chatmodus.replace("String value is:","")
+        
+        if chatmodus == "command"  and userInput !="":
             prompt += f' Answer the name and position in a short json object. Wo befindet sich {userInput}?\n'
-        elif chatmodus == "Chat":
+            
+        elif chatmodus == "scenechat":
             prompt += f' {userInput}?\n'
+            
         elif userInput !="":
-            #prompt += f'{userInput}: {AnswerFormat.schema_json()} :\n'
+
             prompt += f' Answer the name and position in a short json object. Wo befindet sich {userInput}?\n'
         
-        # Wenn der Chatmodus Question ist, dann wird der User Input als Frage interpretiert
-        elif chatmodus == "Question":
+        # beschreibung
+        elif chatmodus == "chat":
             prompt = userInput
-        # Wenn der Chatmodus Generate ist, dann wird der User Input als Frage interpretiert
+        # beschreibung
         else:
             prompt += f'Bitte beschreibe dem User den Sachverhalt und bitte ihn dir eine Frage zu stellen.:\n'
         
-        
-        #print("----")
-        #print("prompt",prompt)
-        #print("----")
+
         return prompt
     
-    # Strings appenden
-    # Schleife über die detections und dann jeweils eine Zeile basteln
-    # dann die Zeilen zusammenfügen
-    # JSON Bedingung am Ende anhängen
-    # an LLM_Main schicken
-    # Dort LLM laufen lassen
-    
+
 
 
 

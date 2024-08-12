@@ -74,13 +74,19 @@ class LLMActionServer(Node):
         goal_handle.publish_feedback(feedback_msg)
         
         
+        parameter_getter = ParamGetter()
+        user_command = parameter_getter.get_ros2_param('user_command')
+        
+        prompt = preprocessing_unit.formatPrompt("",user_input, str(user_command))
+        
         # Create Prompt for the LLM (PreProcessing done) and send feedback after 50 %
-        if "BEFEHL" in user_input:
-            prompt = preprocessing_unit.formatPrompt("",user_input, "Generate")
-        else:
-            prompt = preprocessing_unit.formatPrompt("",user_input, "Chat")
+        # if "BEFEHL" in user_input:
+        #     prompt = preprocessing_unit.formatPrompt("",user_input, "Generate")
+        # else:
+        #     prompt = preprocessing_unit.formatPrompt("",user_input, "Chat")
         
         self.get_logger().info('Prompt: {0}'.format(prompt))
+        self.get_logger().info('Prompt mit Anweisung: {0}'.format(user_command))
         
         feedback_msg.progress = 50
         self.get_logger().info('Feedback: {0}'.format(feedback_msg.progress))

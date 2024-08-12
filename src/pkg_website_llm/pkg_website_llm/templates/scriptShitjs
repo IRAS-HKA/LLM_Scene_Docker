@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('send-btn').addEventListener('click', function () {
         var userInput = document.getElementById('user-input').value;
-        var communication_form = document.getElementById('dropdown-menu').value;
-        
         response_llm = ""
 
         if (userInput.trim() !== '') {
@@ -12,15 +10,14 @@ document.addEventListener('DOMContentLoaded', function () {
             userInput = "";
         }
 
-        let data_request = { user_input: userInput , communication_form: communication_form};
-        console.log(data_request);
+        let data = { user_input: userInput };
+
         fetch('/button_click', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data_request)
-
+            body: JSON.stringify(data)
         })
             .then(response => response.json())
             .then(data => {
@@ -47,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch((error) => {
                 console.error("FUCKKKKKKK")
+                console.error(data)
                 console.error('Error:', error);
             });
 
@@ -84,6 +82,11 @@ document.addEventListener('DOMContentLoaded', function () {
             addMessage('Auswahl wurde bestätigt und wird bearbeitet!', 'bot');
 
         }, 1000);
+
+        setTimeout(function () {
+            addMessage('Auswahl zu Packalgorithmus übermittelt!', 'success');
+
+        }, 5000);
     });
 });
 
@@ -164,6 +167,7 @@ function submitFormOnEnter(event) {
 function addMessage(text, sender) {
     var message = document.createElement('div');
     message.className = 'message ' + (sender === 'user' ? 'user-message' : 'bot-message');
+    message.className = 'message ' + (sender === 'success' ? 'sucess-message' : 'bot-message');
     message.textContent = text;
 
     var chatBox = document.getElementById('chat-box');
@@ -176,39 +180,26 @@ function updateTable(data) {
     const tbody = document.querySelector('#myTable tbody');
     tbody.innerHTML = ''; // Lösche vorhandene Tabellenzeilen
 
+    const itemList = data.package_content.split(', ');
+    const additionalContent = data.cylinder_ids.split(' ');
 
-    console.log(data.package_content);
-    console.log(data.cylinder_ids);
 
-    const itemList = data.package_content;
-    const additionalContent = data.cylinder_ids;
-
-    if (Array.isArray(itemList)){
-
-        for (i in itemList) {
-            //alert(itemList[i])
-            const row = document.createElement('tr');
-            tbody.appendChild(row);
-            const cellKey = document.createElement('tr');
-            cellKey.innerText = itemList[i];
-            row.appendChild(cellKey);
-
-            // Zweite Spalte
-            const cellValue = document.createElement('td');
-            if (additionalContent[i] == undefined) {
-                additionalContent[i] = ""
-            }
-            cellValue.innerText = additionalContent[i];
-            row.appendChild(cellValue);
-
-        }
-    } 
-    else{
+    for (i in itemList) {
+        //alert(itemList[i])
         const row = document.createElement('tr');
         tbody.appendChild(row);
         const cellKey = document.createElement('tr');
-        cellKey.innerText = "NO DATA";
+        cellKey.innerText = itemList[i];
         row.appendChild(cellKey);
+
+        // Zweite Spalte
+        const cellValue = document.createElement('td');
+        if (additionalContent[i] == undefined) {
+            additionalContent[i] = ""
+        }
+        cellValue.innerText = additionalContent[i];
+        row.appendChild(cellValue);
+
     }
 }
 

@@ -7,6 +7,7 @@ class ParameterServer(Node):
     def __init__(self):
         super().__init__('parameter_server')
         self.declare_parameter('user_input', 'No Input')
+        self.declare_parameter('user_command', 'command')
         self.declare_parameter('user_approval', False)
         self.declare_parameter('pack_list', '')
         self.declare_parameter('cylinder_Ids', '')

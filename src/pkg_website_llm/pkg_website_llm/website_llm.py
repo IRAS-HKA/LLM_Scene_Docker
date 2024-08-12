@@ -49,6 +49,9 @@ def button_click():
     
     data = request.json
     user_input = data.get('user_input', '')
+    command = data.get('communication_form', '')
+    server.get_logger().info(f"Command (von webseite_llm): {command}")
+
     server.get_logger().info(f"Anfrage (von webseite_llm): {user_input}")
     
     parameter_setter = ParamGetter()
@@ -56,6 +59,8 @@ def button_click():
     # String wird in der Website gespeichert!
     mod_user_input = "'" + user_input.replace("BEFEHL:", "").replace("Frage:", "")  + "'"
     parameter_setter.set_ros2_param('user_input',mod_user_input)
+    
+    parameter_setter.set_ros2_param('user_command', command)
     
     # if not rclpy.ok():
     #     rclpy.init(args=None)
