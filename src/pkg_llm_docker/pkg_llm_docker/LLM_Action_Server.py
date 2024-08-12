@@ -1,14 +1,19 @@
 import time
 
 import rclpy
+from rclpy.executors import MultiThreadedExecutor
+from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
+
 from rclpy.action import ActionServer
 from rclpy.node import Node
 
 from .PreProcessing import PreProcessing
-
+from .DetectionSubscriber import DetectionSubscriber
+from object_detector_tensorflow_interfaces.msg import Detections
+from .Detection import Detection
 from .MainLLM import MainLLM
 
-
+import threading
 from pkg_website_llm.SelectedItemsToPack import SelectedItems
 from pkg_website_llm.PackItemServer import PackItemsService
 
@@ -26,16 +31,37 @@ class LLMActionServer(Node):
 
     def __init__(self):
         super().__init__('llm_action_server_node')
+        self._action_server_callback_group = MutuallyExclusiveCallbackGroup()
         self._action_server = ActionServer(
             self,
             LLM,    
             'llm_action_server',
-            self.execute_callback)
+            self.execute_callback, callback_group=self._action_server_callback_group)
         self.get_logger().info('Action Server is ready')
-
+        self.subscription_callback_group = MutuallyExclusiveCallbackGroup()
+        self.detections_lock = threading.Lock()
+        self.subscription = self.create_subscription(
+            Detections,
+            '/detection_node/detections',
+            self.listener_callback,
+            10, callback_group=self.subscription_callback_group)
+        self.subscription
+        self.detections = []# prevent unused variable warning
+        self.get_logger().info('Subscriber wurde initalisiert')
+    
+    def listener_callback(self, msg):
+        #self.get_logger().info('I heard: "%s"' % msg.detections)
+        self.get_logger().info('Die Nachricht wurde empfangen')
+ 
+        with self.detections_lock:
+            self.detections = msg.detections
+        #prompt = PreProcessing.formatPrompt(detections, "")
+        #MainLLM.startLLM(prompt)
+        
     def execute_callback(self, goal_handle):
         # Define instance of PreProcessing
-        preprocessing_unit = PreProcessing()
+        with self.detections_lock:
+            preprocessing_unit = PreProcessing(self.detections)
         
         # Receive user input from the website
         user_input = goal_handle.request.userinput
@@ -47,8 +73,6 @@ class LLMActionServer(Node):
         feedback_msg.progress = 0
         goal_handle.publish_feedback(feedback_msg)
         
-        # Receive the detections from the DetectionSubscriber
-        preprocessing_unit.receiveDetections()
         
         # Create Prompt for the LLM (PreProcessing done) and send feedback after 50 %
         if "BEFEHL" in user_input:

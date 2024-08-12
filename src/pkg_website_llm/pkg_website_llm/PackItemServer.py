@@ -1,5 +1,6 @@
 import rclpy
 import time
+import rclpy.duration
 from rclpy.node import Node
 from llm_interfaces.srv import SceneInterpretation
 from .SelectedItemsToPack import SelectedItems
@@ -41,7 +42,7 @@ class PackItemsService(Node):
                 param.set_ros2_param('user_approval', 'False')
                 return response
             else:
-                time.sleep(5)
+                self.get_clock().sleep_for(rclpy.duration.Duration(seconds=5))
                 self.get_logger().info('Data not available yet. Waiting for data...')
 
                 
