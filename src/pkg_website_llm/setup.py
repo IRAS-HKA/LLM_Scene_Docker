@@ -33,7 +33,8 @@ setup(
             'param_setter = pkg_website_llm.ParamSetter:main',
             'param_getter = pkg_website_llm.ParamGetter:main',
             'delete_parameter = pkg_website_llm.DeleteParameterService:main',
-            'pack_item_server = pkg_website_llm.PackItemServer:main'
+            'pack_item_server = pkg_website_llm.PackItemServer:main',
+            'image_saver = pkg_website_llm.LiveImageSubscriber:main',
         ],
     },
 )

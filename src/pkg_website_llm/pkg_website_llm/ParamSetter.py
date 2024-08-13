@@ -9,6 +9,9 @@ class ParameterServer(Node):
         self.declare_parameter('user_input', 'No Input')
         self.declare_parameter('user_command', 'command')
         self.declare_parameter('user_approval', False)
+        self.declare_parameter('node_list', '')
+        self.declare_parameter('feedback_string', 'No String')
+
         self.declare_parameter('pack_list', '')
         self.declare_parameter('cylinder_Ids', '')
         self.declare_parameter('package', '')

@@ -38,6 +38,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/PackItems.srv"
   "srv/WebsiteFeedback.srv"
   "srv/SetGetAllTypes.srv"
+  "msg/SolutionFeedback.msg"
   DEPENDENCIES ${DEPENDENCIES} # Add packages that above messages depend on, in this case geometry_msgs for Sphere.msg
 )
 

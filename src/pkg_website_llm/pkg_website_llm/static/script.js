@@ -122,25 +122,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const response = await fetch('/get_data');
             const data = await response.json();
 
-            //list_object = [package_content, cylinder_ids, grasp_pose, place_pose]
-
-            //document.getElementById("package_content").innerText = data["package_content"];
-            //document.getElementById("cylinder_ids").innerText = data["cylinder_ids"];
-
-            //document.getElementById("grasp_pose").innerText = data["grasp_pose"];
-            //document.getElementById("place_pose").innerText = data["place_pose"];
-
-            // Aktualisiere die Tabellenzellen mit den abgerufenen Daten
-            //for (const key in data) {
-            //if (data.hasOwnProperty(key)) {
-            //    document.getElementById(key).innerText = data[key];
-            //}
-
+            updateNodeList(data);
             updateTable(data);
 
-
-
-            //}
         } catch (error) {
             console.error('Fehler beim Abrufen der Daten:', error);
         }
@@ -152,6 +136,31 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialer Datenabruf beim Laden der Seite
     fetchData();
 });
+
+
+
+function updateNodeList(data) {
+    const tbody = document.querySelector('#NodeTable tbody');
+    tbody.innerHTML = ''; 
+
+    const nodeList = data.node_list.split(', ');
+
+    for (let i = 0; i < nodeList.length; i += 2) {
+        const row = document.createElement('tr');
+        tbody.appendChild(row);
+
+        const cellKey = document.createElement('td');
+        cellKey.innerText = nodeList[i];
+        row.appendChild(cellKey);
+
+        const cellValue = document.createElement('td');
+        // Überprüfen Sie, ob ein zweites Element vorhanden ist, um ein leeres Feld zu vermeiden
+        if (i + 1 < nodeList.length) {
+            cellValue.innerText = nodeList[i + 1];
+        }
+        row.appendChild(cellValue);
+    }
+}
 
 
 function submitFormOnEnter(event) {

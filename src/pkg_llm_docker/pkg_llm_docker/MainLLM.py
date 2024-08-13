@@ -31,20 +31,22 @@ class MainLLM:
     # return result
     pass
    
-  def startLLM(prompt,user_input):
+  def startLLM(prompt,user_input, user_command):
 
 
     start = time.time()
     
-    if "BEFEHL" in user_input:
+    if "command" in user_command:
       response_JSON_Wischblatt_Assistant= OllamaInteraction.getGeneratedObjectFromScene(prompt)
+      dict_response = PostProcessing.formatToDict(response_JSON_Wischblatt_Assistant)
     else :
       response_JSON_Wischblatt_Assistant= OllamaInteraction.getObjectFromScene('user',prompt)
-    
-    if "BEFEHL" in user_input:
-      dict_response = PostProcessing.formatToDict(response_JSON_Wischblatt_Assistant)
-    else:   
       dict_response = PostProcessing.formatToString(response_JSON_Wischblatt_Assistant)
+    
+    # if "BEFEHL" in user_input:
+    #   dict_response = PostProcessing.formatToDict(response_JSON_Wischblatt_Assistant)
+    # else:   
+    #   dict_response = PostProcessing.formatToString(response_JSON_Wischblatt_Assistant)
 
     while True:
       try:

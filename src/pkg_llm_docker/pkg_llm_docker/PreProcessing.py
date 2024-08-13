@@ -106,20 +106,21 @@ class PreProcessing(Node):
         
         chatmodus = chatmodus.replace("String value is:","")
         
-        if chatmodus == "command"  and userInput !="":
+        if "command" in chatmodus and userInput !="":
             prompt += f' Answer the name and position in a short json object. Wo befindet sich {userInput}?\n'
             
-        elif chatmodus == "scenechat":
+        elif "scenechat" in chatmodus and userInput !="" :
             prompt += f' {userInput}?\n'
-            
-        elif userInput !="":
-
-            prompt += f' Answer the name and position in a short json object. Wo befindet sich {userInput}?\n'
         
-        # beschreibung
-        elif chatmodus == "chat":
+        # Beschreibung
+        elif "chat" in chatmodus and userInput !="":
             prompt = userInput
-        # beschreibung
+            
+        # elif userInput !="":
+
+        #     prompt += f' Answer the name and position in a short json object. Wo befindet sich {userInput}?\n'
+        
+        # No User Input
         else:
             prompt += f'Bitte beschreibe dem User den Sachverhalt und bitte ihn dir eine Frage zu stellen.:\n'
         

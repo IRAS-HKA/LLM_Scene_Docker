@@ -12,4 +12,11 @@ def generate_launch_description():
             output='screen',
             name='pack_item_server'
         ),
+        Node(
+            package='pkg_website_llm',
+            namespace='LLM',
+            executable='image_saver',
+            output='screen',
+            name='saveImageFromODTF'
+        ),
     ])

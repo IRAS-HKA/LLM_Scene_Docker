@@ -12,6 +12,7 @@ import time
 
 class LLMActionClient(Node):
 
+    # Initialize the ActionClient of the LLM and the GoalStatus
     def __init__(self):
         super().__init__('llm_action_client')
         self._action_client = ActionClient(self, LLM, 'llm_action_server')
@@ -60,9 +61,6 @@ class LLMActionClient(Node):
         except Exception as e:
             self.get_logger().error('Exception in get_result_callback: {0}'.format(e))
         
-        #self.get_logger().info('RCPLY wird gleich shutdown')
-
-        # rclpy.shutdown()
 
     def feedback_callback(self, feedback_msg):
         feedback = feedback_msg.feedback

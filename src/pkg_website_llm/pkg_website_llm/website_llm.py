@@ -47,78 +47,55 @@ def index():
 @app.route('/button_click', methods=['POST'])
 def button_click():
     
+    # Receive User Input from the website
     data = request.json
     user_input = data.get('user_input', '')
     command = data.get('communication_form', '')
-    server.get_logger().info(f"Command (von webseite_llm): {command}")
+    server.get_logger().info(f"Command (von webseite_llm): {command} and User Input: {user_input}")
 
-    server.get_logger().info(f"Anfrage (von webseite_llm): {user_input}")
-    
+    # write it to the ROS2 parameter server    
     parameter_setter = ParamGetter()
-
-    # String wird in der Website gespeichert!
     mod_user_input = "'" + user_input.replace("BEFEHL:", "").replace("Frage:", "")  + "'"
     parameter_setter.set_ros2_param('user_input',mod_user_input)
-    
     parameter_setter.set_ros2_param('user_command', command)
     
-    # if not rclpy.ok():
-    #     rclpy.init(args=None)
-    
-    
     # This is to call the LLM Action server directly
-    
-    #future = server.send_goal(user_input)
-    server.get_logger().info(f"Input: {user_input}")
     future = server.send_goal(user_input)
-    #print("Datenobjekt Typ Future", type(future))
     server.get_logger().info(f"Server status: {server.status}")
+    
+    # check if goal status is succeeded otherwise spin the node until it is finished!
     while server.status != GoalStatus.STATUS_SUCCEEDED:
         server.get_logger().info(f"Server status: {server.status}")
         rclpy.spin_once(server)
     server.get_logger().info(f"Server status finished: {server.status}")
-    # result = server.get_result()
+
+    # Handle the result
     result = server.get_result()
     server.get_logger().info(f"Spin until future complete done ")
-
-    server.get_logger().info(f"Ergebnis: {type(result)}")
-    server.get_logger().info(f"Ergebnis: {result}")
+    server.get_logger().info(f"Ergebnis Typ: {type(result)}  {result}")
     
-    if "BEFEHL" in user_input:
+    # Give the feedback to the user in a chat bubble
+    if "command" in command:
         result = "Diese Objekte werden gepackt: " + result
-    elif "SzenenChat" in user_input:
-        result = "Diese Objekte wurden gefunden: " + result
     else :
         result = ""+ result 
-    
-   #rclpy.init()  # Muss aufgerufen werden, bevor irgendein ROS2-Code ausgeführt wird
-    
+      
            
     return jsonify({"message": "Button was clicked!", "received": result})
 
 @app.route('/button_approve', methods=['POST'])
 def button_approve():
-
-    UserInput.setApproval(True)
-    server.get_logger().info(f"Meinung des Users: {UserInput.getApproval()}")
     
-    # rclpy.init()
-    #pack_server = PackItemsService()
-    #server.get_logger().info("PackItemsService Node erstellt!")
+    # Set User approval to True
     parameter_setter = ParamGetter()
     parameter_setter.set_ros2_param('user_approval',"True")
-
-
-    #pack_server.spinNode()
-
 
     return jsonify({"message": "Approved by user!", "received": "Approval"})
 
 @app.route('/button_disapprove', methods=['POST'])
 def button_disapprove():
 
-    UserInput.setApproval(False)
-    server.get_logger().info(f"Meinung des Users: { UserInput.getApproval()}")
+    # Set User approval to False
     parameter_setter = ParamGetter()
     parameter_setter.set_ros2_param('user_approval', "False")
 
@@ -128,9 +105,11 @@ def button_disapprove():
 @app.route('/get_data')
 def get_data():
     
+    # this method is used to get the website feedback data from the ROS2 parameter server
     parameter_getter = ParamGetter()
 
     if parameter_getter.checkIfNodeAvailable("/LLM/Parameter_Setter"):
+        
         server.get_logger().info("Node gefunden!")
         class_id_packages =  parameter_getter.get_ros2_param('package')
         class_names = re.findall(r"class_name='(.*?)'", class_id_packages)
@@ -138,21 +117,22 @@ def get_data():
         cylinder_Ids_string =  parameter_getter.get_ros2_param('cylinder_Ids')
         cylinder_ids = re.findall(r"cylinder_ids=\[(.*?)\]", cylinder_Ids_string)
         cylinder_ids_lists = [list(map(int, ids.split(','))) for ids in cylinder_ids]
+        
+        node_list = parameter_getter.get_ros2_param('node_list')
 
-        #'picture': WebsiteFeedbackData.getImagePath(),
+
         data = {
             'package_content': class_names,
             'cylinder_ids': cylinder_ids_lists,
-            #'package_content': parameter_getter.get_ros2_param('package'),
-            #'cylinder_ids': parameter_getter.get_ros2_param('cylinder_Ids'),   
+            'node_list': node_list.replace("String value is: ", ""),  
         }
     else:
+        #server.get_clock().sleep_for(rclpy.duration.Duration(seconds=5))
         server.get_logger().info("Node NICHT gefunden!")
         data = {
             'package_content': "NO DATA",
             'cylinder_ids': "NO DATA",
-            #'package_content': parameter_getter.get_ros2_param('package'),
-            #'cylinder_ids': parameter_getter.get_ros2_param('cylinder_Ids'),   
+            'node_list': "NO DATA", 
         }
         
 
@@ -165,10 +145,10 @@ def main():
     rclpy.init()
     server = LLMActionClient()
     server.get_logger().info('LLMActionClient Node wurde erstellt')
-    #app.run(debug=True, host='127.0.0.1', port=8080)
+
     try:
         app.run(host='127.0.0.1', port=8080)
-        # rclpy.spin(server)
+
     except KeyboardInterrupt:
         print("Server wird beendet")
         server.destroy_node() 

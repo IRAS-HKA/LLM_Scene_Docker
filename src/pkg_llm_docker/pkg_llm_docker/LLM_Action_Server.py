@@ -51,7 +51,7 @@ class LLMActionServer(Node):
     
     def listener_callback(self, msg):
         #self.get_logger().info('I heard: "%s"' % msg.detections)
-        self.get_logger().info('Die Nachricht wurde empfangen')
+        #self.get_logger().info('Die Nachricht wurde empfangen')
  
         with self.detections_lock:
             self.detections = msg.detections
@@ -94,7 +94,7 @@ class LLMActionServer(Node):
         goal_handle.publish_feedback(feedback_msg)
         
         # Start the LLM
-        result_dict = MainLLM.startLLM(prompt, user_input)
+        result_dict = MainLLM.startLLM(prompt, user_input,str(user_command))
         goal_handle.publish_feedback(feedback_msg)
         goal_handle.succeed()
 
