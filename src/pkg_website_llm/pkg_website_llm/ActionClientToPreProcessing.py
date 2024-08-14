@@ -75,22 +75,22 @@ def main(args=None):
     rclpy.init(args=args)  
     action_client = LLMActionClient()
     
-    if "No input" not in param_getter.get_ros2_param('user_input') != "" and "True" in param_getter.get_ros2_param('user_approval') :
-        action_client.get_logger().info('UserInput: {0}'.format(param_getter.get_ros2_param('user_input'))) 
-        action_client.send_goal(param_getter.get_ros2_param('user_input'))
-    else:
-        action_client.get_logger().info('No input or no approval given')
-        time.sleep(2)
+    # if "No input" not in param_getter.get_ros2_param('user_input') != "" and "True" in param_getter.get_ros2_param('user_approval') :
+    #     action_client.get_logger().info('UserInput: {0}'.format(param_getter.get_ros2_param('user_input'))) 
+    #     action_client.send_goal(param_getter.get_ros2_param('user_input'))
+    # else:
+    #     action_client.get_logger().info('No input or no approval given')
+    #     time.sleep(2)
         
-    param_getter = ParamGetter()
-    user_input = param_getter.get_ros2_param('user_input')
+    # param_getter = ParamGetter()
+    # user_input = param_getter.get_ros2_param('user_input')
 
-    action_client.get_logger().info('UserInput: {0}'.format(user_input)) 
+    # action_client.get_logger().info('UserInput: {0}'.format(user_input)) 
 
-    action_client.send_goal(user_input)
+    # action_client.send_goal(user_input)
 
-    self.get_logger().info("Goal sent")
-    rclpy.spin(action_client)
+    # self.get_logger().info("Goal sent")
+    # rclpy.spin(action_client)
 
 
 if __name__ == '__main__':

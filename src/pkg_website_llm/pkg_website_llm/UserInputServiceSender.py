@@ -6,7 +6,7 @@ from threading import Timer
 import time
 
 from .ParamGetter import ParamGetter
-
+from .FileReadWriter import FileReadWriter
 
 class UserInputService(Node):
 
@@ -21,11 +21,13 @@ class UserInputService(Node):
         
         param = ParamGetter()
         while True:
-            if (param.get_ros2_param("user_input") == None):
+            #if (param.get_ros2_param("user_input") == None):
+            if (FileReadWriter.readUserInputFile("user_input")== None):
                 time.sleep(2)
                 self.get_logger().info('NO User Input available yet. Waiting for data...')
                 continue
-            user_input = param.get_ros2_param("user_input")
+            #user_input = param.get_ros2_param("user_input")
+            user_input = FileReadWriter.readUserInputFile("user_input")
             user_input = user_input.replace("String value is:", "")
             user_input = user_input.strip()
             

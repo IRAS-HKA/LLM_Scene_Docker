@@ -6,6 +6,7 @@ from llm_interfaces.srv import SceneInterpretation
 from .SelectedItemsToPack import SelectedItems
 from .UserInput import UserInput
 from .ParamGetter import ParamGetter
+from .FileReadWriter import FileReadWriter
 
 class PackItemsService(Node):
 
@@ -15,9 +16,9 @@ class PackItemsService(Node):
         self.get_logger().info('Service server is ready.')
     
     def formatOutput(self):
-        param = ParamGetter()
-        temp = param.get_ros2_param('pack_list')
-
+        #param = ParamGetter()
+        #temp = param.get_ros2_param('pack_list')
+        temp = FileReadWriter.readUserInputFile('pack_list')
         cleaned_string = temp.replace("String value is: ", "").replace("'", "").replace(" ", "").replace("[", "").replace("]","").replace("\n", "")
 
         # Den String in eine Liste aufteilen
@@ -29,22 +30,40 @@ class PackItemsService(Node):
         return result_list
 
     def pack_items_callback(self, request, response):
-
-        param = ParamGetter()
+        
         while (True):
 
-            if "True" in param.get_ros2_param('user_approval'):
-                if "No Input" not in param.get_ros2_param('pack_list'):
+            if FileReadWriter.readUserInputFile('user_approval') == "True":
+                self.get_logger().info('Data available yet.')
+                if "No Input" not in FileReadWriter.readUserInputFile('user_approval'):
                     self.get_logger().info('Data available yet.')
 
                     response.objects_to_pick = self.formatOutput()
                     self.get_logger().info("TYPE objects_to_pick: {}".format(type(response.objects_to_pick)))
                     self.get_logger().info("RESPONSE objects_to_pick: {}".format(response.objects_to_pick))
-                    param.set_ros2_param('user_approval', 'False')
+                    #param.set_ros2_param('user_approval', 'False')
+                    FileReadWriter.writeUserInputFile('user_approval', 'False')
                     return response
             else:
                 self.get_clock().sleep_for(rclpy.duration.Duration(seconds=5))
                 self.get_logger().info('Data not available yet. Waiting for data...')
+
+        # param = ParamGetter()
+        # while (True):
+
+        #     if "True" in param.get_ros2_param('user_approval'):
+        #         if "No Input" not in param.get_ros2_param('pack_list'):
+        #             self.get_logger().info('Data available yet.')
+
+        #             response.objects_to_pick = self.formatOutput()
+        #             self.get_logger().info("TYPE objects_to_pick: {}".format(type(response.objects_to_pick)))
+        #             self.get_logger().info("RESPONSE objects_to_pick: {}".format(response.objects_to_pick))
+        #             param.set_ros2_param('user_approval', 'False')
+        #             return response
+        #     else:
+        #         self.get_clock().sleep_for(rclpy.duration.Duration(seconds=5))
+        #         self.get_logger().info('Data not available yet. Waiting for data...')
+                
 
                 
     def stop_spin(self):

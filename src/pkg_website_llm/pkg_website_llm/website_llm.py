@@ -49,14 +49,19 @@ def index():
     if os.path.exists(file_path_pack):
         server.get_logger().info("PackPlanBild.png wird gelöscht")
         os.remove(file_path_pack)
-    for root, dirs, files in os.walk(static_dir):
-        for file in files:
-            server.get_logger().info(os.path.join(root, file))
+    # for root, dirs, files in os.walk(static_dir):
+    #     for file in files:
+    #         server.get_logger().info(os.path.join(root, file))
+    
+    FileReadWriter.writeWebsiteFeedbackInitially()
+    FileReadWriter.writeUserInputInitially()
 
     return render_template('index.html')
 
 @app.route('/button_click', methods=['POST'])
 def button_click():
+    FileReadWriter.writeWebsiteFeedbackInitially()
+    FileReadWriter.writeUserInputInitially()
     
     # Receive User Input from the website
     data = request.json
@@ -65,10 +70,13 @@ def button_click():
     server.get_logger().info(f"Command (von webseite_llm): {command} and User Input: {user_input}")
 
     # write it to the ROS2 parameter server    
-    parameter_setter = ParamGetter()
+    #parameter_setter = ParamGetter()
+    #mod_user_input = "'" + user_input.replace("BEFEHL:", "").replace("Frage:", "")  + "'"
+    #parameter_setter.set_ros2_param('user_input',mod_user_input)
+    #parameter_setter.set_ros2_param('user_command', command)
     mod_user_input = "'" + user_input.replace("BEFEHL:", "").replace("Frage:", "")  + "'"
-    parameter_setter.set_ros2_param('user_input',mod_user_input)
-    parameter_setter.set_ros2_param('user_command', command)
+    FileReadWriter.writeUserInputFile("user_input", mod_user_input)
+    FileReadWriter.writeUserInputFile("user_command", command)
     
     # This is to call the LLM Action server directly
     future = server.send_goal(user_input)
@@ -98,17 +106,19 @@ def button_click():
 def button_approve():
     
     # Set User approval to True
-    parameter_setter = ParamGetter()
-    parameter_setter.set_ros2_param('user_approval',"True")
-
+    #parameter_setter = ParamGetter()
+    #parameter_setter.set_ros2_param('user_approval',"True")
+    FileReadWriter.writeUserInputFile("user_approval", "True")
+    
     return jsonify({"message": "Approved by user!", "received": "Approval"})
 
 @app.route('/button_disapprove', methods=['POST'])
 def button_disapprove():
 
     # Set User approval to False
-    parameter_setter = ParamGetter()
-    parameter_setter.set_ros2_param('user_approval', "False")
+    #parameter_setter = ParamGetter()
+    #parameter_setter.set_ros2_param('user_approval', "False")
+    FileReadWriter.writeUserInputFile("user_approval", "False")
 
 
     return jsonify({"message": "Disapproved by user", "received": "Disapproval"})
@@ -145,8 +155,7 @@ def get_data():
     #         'cylinder_ids': "NO DATA",
     #         'node_list': "NO DATA", 
     #     }
-    current_directory = os.getcwd()
-    server.get_logger().info(f"Aktuelles Verzeichnis: {current_directory}")
+
 
     try:
         class_id_packages = FileReadWriter.readWebsiteFeedbackFile("package")
@@ -156,12 +165,15 @@ def get_data():
         cylinder_ids = re.findall(r"cylinder_ids=\[(.*?)\]", class_id_cylinder)
         cylinder_ids_lists = [list(map(int, ids.split(','))) for ids in cylinder_ids]
         
-        node_list = FileReadWriter.readWebsiteFeedbackFile("node_list")        
+        node_list = FileReadWriter.readWebsiteFeedbackFile("node_list")    
+        
+        feedback_string = FileReadWriter.readWebsiteFeedbackFile("feedback_string")        
                 
         data = {
             'package_content': class_names,
             'cylinder_ids': cylinder_ids_lists,
-            'node_list': node_list,  
+            'node_list': node_list,
+            'feedback_string': feedback_string,  
         }
     except:
         data = {
