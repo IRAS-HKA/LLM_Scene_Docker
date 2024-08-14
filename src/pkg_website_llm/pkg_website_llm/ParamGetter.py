@@ -34,7 +34,7 @@ class ParamGetter:
             list_nodes = []
             relevant_nodes_llm = ["/LLM/LLM1", "/LLM/delete_parameter_service", "/LLM/feedbackwebsite", "/LLM/pack_item_server", "/LLM/saveImageFromODTF", "/LLM/user_input_sender", "/LLM/website"]
             
-            if all(string in result for string in relevant_nodes_llm):
+            if all(string in result.stdout for string in relevant_nodes_llm):
                 list_nodes.append("LLM Nodes")
            
             for node in result.stdout.split("\n"):

@@ -83,17 +83,17 @@ class PreProcessing(Node):
         prompt = 'Detektierte Objekte: \n'
         
         
-        classname = ["Box_Wischblatt", "Keilriemen_gross", "Box_Messwertgeber", "Keilriemen_klein"]
-        center_x = [543.5, 629.5, 800.0, 500.4]
-        center_y = [608.5, 405.5, 524.0, 320.1]
-        center_z=  [0.01, 0.001, 0.002, 0.01]
-        # classname = []
-        # center_x = []
-        # center_y = []
-        # for detection in self.detections:
-        #     classname.append(detection.class_name)
-        #     center_x.append(detection.center.x)
-        #     center_y.append(detection.center.y)
+        # classname = ["Box_Wischblatt", "Keilriemen_gross", "Box_Messwertgeber", "Keilriemen_klein"]
+        # center_x = [543.5, 629.5, 800.0, 500.4]
+        # center_y = [608.5, 405.5, 524.0, 320.1]
+        # center_z=  [0.01, 0.001, 0.002, 0.01]
+        classname = []
+        center_x = []
+        center_y = []
+        for detection in self.detections:
+            classname.append(detection.class_name)
+            center_x.append(detection.center.x)
+            center_y.append(detection.center.y)
         object_mass,length_mass,width_mass,height_mass = PreProcessing.loadAdditionalInformationYAML(self,classname)
         
 

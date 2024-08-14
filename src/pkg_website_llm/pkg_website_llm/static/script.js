@@ -132,6 +132,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Rufe fetchData alle 10 Sekunden auf
     setInterval(fetchData, 10000);
+    // Aktualisiere das Bild alle 10 Sekunden
+    setInterval(updateImage, 10000); // 10000 ms = 10 Sekunden
 
     // Initialer Datenabruf beim Laden der Seite
     fetchData();
@@ -150,13 +152,13 @@ function updateNodeList(data) {
         tbody.appendChild(row);
 
         const cellKey = document.createElement('td');
-        cellKey.innerText = nodeList[i];
+        cellKey.innerText = nodeList[i].replace(/[\['\]]/g, '');
         row.appendChild(cellKey);
 
         const cellValue = document.createElement('td');
         // Überprüfen Sie, ob ein zweites Element vorhanden ist, um ein leeres Feld zu vermeiden
         if (i + 1 < nodeList.length) {
-            cellValue.innerText = nodeList[i + 1];
+            cellValue.innerText = nodeList[i + 1].replace(/[\['\]]/g, '');
         }
         row.appendChild(cellValue);
     }
@@ -223,30 +225,33 @@ function updateTable(data) {
 
 // Funktion, um das Bild zu aktualisieren
 function updateImage() {
-    async function fetchData() {
-        try {
-            const response = await fetch('/get_data');
-            const data = await response.json();
+    var imageElement_Pack = document.getElementById('image_Pack');
+    var imageElement_Box = document.getElementById('image');
+    imageElement_Pack.src = "PackPlanBild.png";
+    imageElement_Box.src = "Hintergrund.png";
+    // async function fetchData() {
+    //     try {
+    //         const response = await fetch('/get_data');
+    //         const data = await response.json();
 
 
-            var imageElement = document.getElementById('image');
-            var currentSrc = data.picture;
+    //         var imageElement = document.getElementById('image');
+    //         var currentSrc = data.picture;
 
-            // Logik, um die neue Bildquelle festzulegen
-            // Hier ein einfaches Beispiel, das den Query-Parameter ändert, um den Cache zu umgehen
-            var newSrc = currentSrc.split('?')[0] + '?' + new Date().getTime();
-
-            imageElement.src = newSrc;
-
-
-            //}
-        } catch (error) {
-            console.error('Fehler beim Abrufen der Daten:', error);
-        }
+    //         // Logik, um die neue Bildquelle festzulegen
+    //         // Hier ein einfaches Beispiel, das den Query-Parameter ändert, um den Cache zu umgehen
+    //         var newSrc = currentSrc.split('?')[0] + '?' + new Date().getTime();
+            
+    //         imageElement.src = "PackPlanBild.png";
+            
 
 
+    //         //}
+    //     } catch (error) {
+    //         console.error('Fehler beim Abrufen der Daten:', error);
+    //     }
+
+
+    // }
 }
-}
 
-// Aktualisiere das Bild alle 10 Sekunden
-setInterval(updateImage, 10000); // 10000 ms = 10 Sekunden

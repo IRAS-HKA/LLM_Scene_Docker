@@ -14,14 +14,17 @@ class UserInputService(Node):
         #rclpy.init(args=None)
         super().__init__('UserInputServiceSender')
         self.srv = self.create_service(UserInteraction, 'user_interaction', self.userinput_callback)
-
+        
         print("Node wurde initialisiert")
 
     def userinput_callback(self, request, response):
         
         param = ParamGetter()
         while True:
-
+            if (param.get_ros2_param("user_input") == None):
+                time.sleep(2)
+                self.get_logger().info('NO User Input available yet. Waiting for data...')
+                continue
             user_input = param.get_ros2_param("user_input")
             user_input = user_input.replace("String value is:", "")
             user_input = user_input.strip()
@@ -39,7 +42,6 @@ class UserInputService(Node):
     def shutdown_node(self):
         rclpy.shutdown()
         self.get_logger().info('Service destroyed: %s' % UserInput.getUserInput())
-        UserInput.UserInput_str = 'No Input'
 
 
 def main(args=None):
@@ -48,10 +50,7 @@ def main(args=None):
     service = UserInputService()
     service.get_logger().info('Service was started and spins now')
     rclpy.spin(service)
-    #print("Service erzeugt")
 
-    #rclpy.spin('user_input')
-    #rclpy.spin(self.srv)
 
     
 

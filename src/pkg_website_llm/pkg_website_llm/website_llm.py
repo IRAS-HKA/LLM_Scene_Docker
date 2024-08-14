@@ -11,6 +11,7 @@ from .PackItemServer import PackItemsService
 from .SelectedItemsToPack import SelectedItems
 
 from .ParamGetter import ParamGetter
+from .FileReadWriter import FileReadWriter
 
 import os
 import glob
@@ -38,6 +39,16 @@ app = Flask(__name__, template_folder='/home/robot/ros_ws/src/pkg_website_llm/pk
 
 @app.route('/')
 def index():
+    file_path_box = "/home/robot/ros_ws/src/pkg_website_llm/pkg_website_llm/static/Hintergrund.png"
+    file_path_pack = "/home/robot/ros_ws/src/pkg_website_llm/pkg_website_llm/static/PackPlanBild.png"
+        
+    if os.path.exists(file_path_box):
+        server.get_logger().info("Hintergrund.png wird gelöscht")
+        os.remove(file_path_box)
+        
+    if os.path.exists(file_path_pack):
+        server.get_logger().info("PackPlanBild.png wird gelöscht")
+        os.remove(file_path_pack)
     for root, dirs, files in os.walk(static_dir):
         for file in files:
             server.get_logger().info(os.path.join(root, file))
@@ -106,34 +117,59 @@ def button_disapprove():
 def get_data():
     
     # this method is used to get the website feedback data from the ROS2 parameter server
-    parameter_getter = ParamGetter()
+    # parameter_getter = ParamGetter()
 
-    if parameter_getter.checkIfNodeAvailable("/LLM/Parameter_Setter"):
+    # if parameter_getter.checkIfNodeAvailable("/LLM/Parameter_Setter"):
         
-        server.get_logger().info("Node gefunden!")
-        class_id_packages =  parameter_getter.get_ros2_param('package')
+    #     server.get_logger().info("Node gefunden!")
+    #     class_id_packages =  parameter_getter.get_ros2_param('package')
+    #     class_names = re.findall(r"class_name='(.*?)'", class_id_packages)
+    #     server.get_logger().info(class_id_packages)
+    #     cylinder_Ids_string =  parameter_getter.get_ros2_param('cylinder_Ids')
+    #     cylinder_ids = re.findall(r"cylinder_ids=\[(.*?)\]", cylinder_Ids_string)
+    #     cylinder_ids_lists = [list(map(int, ids.split(','))) for ids in cylinder_ids]
+        
+    #     node_list = parameter_getter.get_ros2_param('node_list')
+
+
+    #     data = {
+    #         'package_content': class_names,
+    #         'cylinder_ids': cylinder_ids_lists,
+    #         'node_list': node_list.replace("String value is: ", ""),  
+    #     }
+    # else:
+    #     #server.get_clock().sleep_for(rclpy.duration.Duration(seconds=5))
+    #     server.get_logger().info("Node NICHT gefunden!")
+    #     data = {
+    #         'package_content': "NO DATA",
+    #         'cylinder_ids': "NO DATA",
+    #         'node_list': "NO DATA", 
+    #     }
+    current_directory = os.getcwd()
+    server.get_logger().info(f"Aktuelles Verzeichnis: {current_directory}")
+
+    try:
+        class_id_packages = FileReadWriter.readWebsiteFeedbackFile("package")
         class_names = re.findall(r"class_name='(.*?)'", class_id_packages)
-        server.get_logger().info(class_id_packages)
-        cylinder_Ids_string =  parameter_getter.get_ros2_param('cylinder_Ids')
-        cylinder_ids = re.findall(r"cylinder_ids=\[(.*?)\]", cylinder_Ids_string)
+        
+        class_id_cylinder = FileReadWriter.readWebsiteFeedbackFile("cylinder_Ids")
+        cylinder_ids = re.findall(r"cylinder_ids=\[(.*?)\]", class_id_cylinder)
         cylinder_ids_lists = [list(map(int, ids.split(','))) for ids in cylinder_ids]
         
-        node_list = parameter_getter.get_ros2_param('node_list')
-
-
+        node_list = FileReadWriter.readWebsiteFeedbackFile("node_list")        
+                
         data = {
             'package_content': class_names,
             'cylinder_ids': cylinder_ids_lists,
-            'node_list': node_list.replace("String value is: ", ""),  
+            'node_list': node_list,  
         }
-    else:
-        #server.get_clock().sleep_for(rclpy.duration.Duration(seconds=5))
-        server.get_logger().info("Node NICHT gefunden!")
+    except:
         data = {
             'package_content': "NO DATA",
             'cylinder_ids': "NO DATA",
             'node_list': "NO DATA", 
         }
+
         
 
     return jsonify(data)
@@ -151,6 +187,8 @@ def main():
 
     except KeyboardInterrupt:
         print("Server wird beendet")
+
+            
         server.destroy_node() 
         rclpy.shutdown()
 

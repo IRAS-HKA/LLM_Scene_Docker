@@ -6,6 +6,7 @@ from .WebsiteFeedbackData import WebsiteFeedbackData
 from cv_bridge import CvBridge
 import cv2
 import os
+from .FileReadWriter import FileReadWriter
 
 from .ParamGetter import ParamGetter
 
@@ -27,8 +28,7 @@ class MinimalService(Node):
         
         self.get_logger().info(f'Package: {request.package}')
         
-        encoding = request.feedback.image.encoding
-        self.get_logger().info(f'Image encoding received: {encoding}')
+
         
         cv_image = self.bridge.imgmsg_to_cv2(request.feedback.image, "8UC3")
         image_name = "PackPlanBild.png"
@@ -37,14 +37,19 @@ class MinimalService(Node):
         self.get_logger().info(f'Saved image to {image_path}')
 
         param = ParamGetter()
-        param.set_ros2_param('cylinder_Ids', str(request.cylinder_ids))
-        param.set_ros2_param('package', str(request.package))
-        param.set_ros2_param('feedback_message', str(request.feedback.message))
+        # param.set_ros2_param('cylinder_Ids', str(request.cylinder_ids))
+        # param.set_ros2_param('package', str(request.package))
+        # param.set_ros2_param('feedback_message', str(request.feedback.message))
         
-        param.set_ros2_param('', str(param.listAllNodes()))
+        # param.set_ros2_param('', str(param.listAllNodes()))
 
+        FileReadWriter.writeWebsiteFeedbackInitially()
+
+        FileReadWriter.writeWebsiteFeedbackFile("cylinder_Ids", str(request.cylinder_ids))
+        FileReadWriter.writeWebsiteFeedbackFile("package", str(request.package))
+        FileReadWriter.writeWebsiteFeedbackFile("node_list", str(param.listAllNodes()))
+        FileReadWriter.writeWebsiteFeedbackFile("feedback_string", str(request.feedback.message))
         
-       
         self.get_logger().info('Set website feedback ')
          
         return response

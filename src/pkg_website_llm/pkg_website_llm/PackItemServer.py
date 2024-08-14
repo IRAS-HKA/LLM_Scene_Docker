@@ -33,14 +33,15 @@ class PackItemsService(Node):
         param = ParamGetter()
         while (True):
 
-            if ("No Input" not in param.get_ros2_param('pack_list') and "True" in param.get_ros2_param('user_approval')):
-                self.get_logger().info('Data available yet.')
+            if "True" in param.get_ros2_param('user_approval'):
+                if "No Input" not in param.get_ros2_param('pack_list'):
+                    self.get_logger().info('Data available yet.')
 
-                response.objects_to_pick = self.formatOutput()
-                self.get_logger().info("TYPE objects_to_pick: {}".format(type(response.objects_to_pick)))
-                self.get_logger().info("RESPONSE objects_to_pick: {}".format(response.objects_to_pick))
-                param.set_ros2_param('user_approval', 'False')
-                return response
+                    response.objects_to_pick = self.formatOutput()
+                    self.get_logger().info("TYPE objects_to_pick: {}".format(type(response.objects_to_pick)))
+                    self.get_logger().info("RESPONSE objects_to_pick: {}".format(response.objects_to_pick))
+                    param.set_ros2_param('user_approval', 'False')
+                    return response
             else:
                 self.get_clock().sleep_for(rclpy.duration.Duration(seconds=5))
                 self.get_logger().info('Data not available yet. Waiting for data...')
