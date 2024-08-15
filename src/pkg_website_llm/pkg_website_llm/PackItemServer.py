@@ -26,6 +26,7 @@ class PackItemsService(Node):
 
         # Entfernen der zusätzlichen einfachen Anführungszeichen um die Listenelemente
         result_list = [item.strip("'") for item in result_list]
+        
 
         return result_list
 
@@ -42,7 +43,8 @@ class PackItemsService(Node):
                     self.get_logger().info("TYPE objects_to_pick: {}".format(type(response.objects_to_pick)))
                     self.get_logger().info("RESPONSE objects_to_pick: {}".format(response.objects_to_pick))
                     #param.set_ros2_param('user_approval', 'False')
-                    FileReadWriter.writeUserInputFile('user_approval', 'False')
+                    #FileReadWriter.writeUserInputFile('user_approval', 'False')
+                    FileReadWriter.writeUserInputInitially()
                     return response
             else:
                 self.get_clock().sleep_for(rclpy.duration.Duration(seconds=5))

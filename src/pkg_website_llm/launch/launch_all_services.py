@@ -33,20 +33,27 @@ def generate_launch_description():
             output='screen',
             name='user_input_sender'
         ),
-        # Node(
-        #     package='pkg_website_llm',
-        #     namespace='LLM',
-        #     executable='feedback_website_llm',
-        #     output='screen',
-        #     name='feedbackwebsite'
-        # ),
         Node(
             package='pkg_website_llm',
             namespace='LLM',
-            executable='delete_parameter',
+            executable='feedback_website_llm',
             output='screen',
-            name='delete_parameter_service'
-        )           
+            name='feedbackwebsite'
+        ),
+        Node(
+            package='pkg_website_llm',
+            namespace='LLM',
+            executable='pack_item_server',
+            output='screen',
+            name='pack_item_server'
+        ),
+        Node(
+            package='pkg_website_llm',
+            namespace='LLM',
+            executable='image_saver',
+            output='screen',
+            name='saveImageFromODTF'
+        ),             
 
 
     ])

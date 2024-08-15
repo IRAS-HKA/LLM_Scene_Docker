@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('send-btn').addEventListener('click', function () {
+
+        var imageElement_Pack = document.getElementById('image_Pack');
+        imageElement_Pack.src = "";
+
         var userInput = document.getElementById('user-input').value;
         var communication_form = document.getElementById('dropdown-menu').value;
         
@@ -46,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch((error) => {
-                console.error("FUCKKKKKKK")
                 console.error('Error:', error);
             });
 
@@ -130,12 +133,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Rufe fetchData alle 10 Sekunden auf
     setInterval(fetchData, 10000);
-    // Aktualisiere das Bild alle 10 Sekunden
-    setInterval(updateImage, 10000); // 10000 ms = 10 Sekunden
+    setInterval(updateImage, 3000); 
 
-    // Initialer Datenabruf beim Laden der Seite
+
     fetchData();
 });
 
@@ -225,33 +226,35 @@ function updateTable(data) {
 
 // Funktion, um das Bild zu aktualisieren
 function updateImage() {
-    var imageElement_Pack = document.getElementById('image_Pack');
-    var imageElement_Box = document.getElementById('image');
-    imageElement_Pack.src = "PackPlanBild.png";
-    imageElement_Box.src = "Hintergrund.png";
-    // async function fetchData() {
-    //     try {
-    //         const response = await fetch('/get_data');
-    //         const data = await response.json();
 
+    fetchData()
+    async function fetchData() {
+    try {
 
-    //         var imageElement = document.getElementById('image');
-    //         var currentSrc = data.picture;
+        var imageElement_Pack = document.getElementById('image_Pack');
+        let timestamp = new Date().getTime();
+        imageElement_Pack.src = `${"PackPlanBild.png"}?t=${timestamp}`;
+        //imageElement_Pack.src = "PackPlanBild.png";
+        var imageElement_Box = document.getElementById('image');
+        imageElement_Box.src = `${"Hintergrund.png"}?t=${timestamp}`;
+        //imageElement_Box.src = "Hintergrund.png";
 
-    //         // Logik, um die neue Bildquelle festzulegen
-    //         // Hier ein einfaches Beispiel, das den Query-Parameter ändert, um den Cache zu umgehen
-    //         var newSrc = currentSrc.split('?')[0] + '?' + new Date().getTime();
-            
-    //         imageElement.src = "PackPlanBild.png";
-            
+        const response = await fetch('/get_data');
+        const data = await response.json();
+        var packplanning_name = document.getElementById('pack_heading_text');
 
+        if (data.feedback_string !== 'No String'){
+            console.log(data.feedback_string);
+            if (packplanning_name.innerText.includes("Alle Pakete werden gepackt")){
+                packplanning_name.innerText = packplanning_name.innerText;
+            } else{
+                packplanning_name.innerText = packplanning_name.innerText + "\n" + data.feedback_string;
+            }
+    }
 
-    //         //}
-    //     } catch (error) {
-    //         console.error('Fehler beim Abrufen der Daten:', error);
-    //     }
-
-
-    // }
-}
+    
+    } catch (error) {
+        console.error('Fehler beim Abrufen der Daten:', error);
+    }    }
+    }
 
