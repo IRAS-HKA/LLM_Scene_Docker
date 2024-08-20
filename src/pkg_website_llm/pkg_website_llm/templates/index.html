@@ -16,19 +16,22 @@
 </head>
 <section class="layout">
     <div class="header">
-        <h1 style="color: white">Automated Item Picking - Large Language Model</h1>
+        <div class="header-container" >
+            <!-- <button id="language-toggle">Englisch</button> -->
+             <image id="language-toggle" src="england-flagge.png" style="width: 100px; height: 100px; float: left;">
+            <h1 style="color: white; text-align: center;">Automated Item Picking - Large Language Model</h1>
+        </div>
     </div>
 
     <div class="main">
         <div class="picture-container" style="color: white">
-            <h2 style="color: white" >Image of Box Content</h2>
-            <!-- <img id="image" src="Hintergrund.png" alt="Image of the box" width="480" height="480"> -->
-            <img id="image" src="Hintergrund.png" alt="Image of the box" width="480" height="480">
+            <h2 id= "BoxBild"style="color: white" >Greifbare Objekte: </h2>
+            <img id="image" src="Hintergrund.png" alt="" width="480" height="480">
 
         </div>
 
         <div class="picture-container" style="color: white">
-            <h2 id ="pack_heading" style="color: white" >Pack Planning</h2>
+            <h2 id ="pack_heading" style="color: white" >Berechneter Packplan:</h2>
             <img id="image_Pack" src="PackPlanBild.png" alt="" onerror="this.onerror=null; this.src='Platzhalter.png';" width="480" height="400">
             <p id ="pack_heading_text" style="color: white" ></p>
         </div>
@@ -36,18 +39,17 @@
 
         <div class="chat-container" style="color: white">
             <div class="chat-box" id="chat-box">
-                <div class="message bot-message">Hallo, Ich bin das LLM von AIP! Wie kann ich dir helfen?</div>
+                <div id= "InitialMessage" class="message bot-message">Hallo, Ich bin das LLM-AIP! Ich kenne die erkannten Objekte sowie deren Gewicht und Abmessungen und ich kann dir Fragen dazu beantworten. Wähle hierzu im Drop-Down die passende Option ("Chat" oder "Szenenchat"). Wenn du direkt Objekte packen möchtest dann nutze "Befehl". </div>
             </div>
             
             <div class="input-container">
-                <input type="text" id="user-input" placeholder="Sende eine Nachricht...">
+                <input type="text" id="user-input" placeholder="Ihre Nachricht eingeben...">
                 <select id="dropdown-menu">
-                    <option value="chat">Chat</option>
-                    <option value="scenechat">Szenen-Chat</option>
-                    <option value="command">Befehl</option>
+                    <option id = "option1" value="chat">Chat</option>
+                    <option id = "option2" value="scenechat">Szenen-Chat</option>
+                    <option id = "option3" value="command">Befehl</option>
                 </select>
                 <button id="send-btn"> Senden</button>
-                <!-- onclick="buttonClick()" -->
             </div>
 
         </div>

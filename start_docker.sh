@@ -18,7 +18,6 @@ SRC_HOST_2=./src/object_detector_tensorflow_interfaces
 docker run \
     -it \
     --cpus=4 \
-    --gpus all \
     --memory=8g \
     --name llm_docker \
     --privileged \

@@ -1,3 +1,5 @@
+document.documentElement.lang == "de";
+console.log("Deutsche Sprache ist aktiviert")
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('send-btn').addEventListener('click', function () {
 
@@ -89,6 +91,82 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 1000);
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+document.getElementById("language-toggle").addEventListener("click", function () {
+    // Aktuelle Sprache herausfinden
+    const currentLanguage = document.documentElement.lang;
+    
+
+    const BoxBild = document.getElementById('BoxBild'); 
+    const PackBild = document.getElementById('pack_heading');
+    const Tabelle_Pack = document.getElementById('myTable').querySelector("thead th:first-child");
+    const Tabelle_Pack_Zylinder = document.getElementById('myTable').querySelector("thead th:nth-child(2)");
+    const Tabelle_Node = document.getElementById('NodeTable').querySelector("thead th:first-child");
+
+    const user_input = document.getElementById('user-input');
+
+    const AblehnenBtn = document.getElementById('disapprove-btn');
+    const Bestätigen = document.getElementById('approve-btn');
+
+    const senden = document.getElementById('send-btn');
+
+    const option1 = document.getElementById('option1');
+    const option2 = document.getElementById('option2');
+    const option3 = document.getElementById('option3'); 
+
+
+    // Sprache wechseln
+    if (currentLanguage === "en") {
+        console.log("Umgestellt auf Deutsche Sprache")
+        BoxBild.textContent = "Greifbare Objekte: ";
+        PackBild.textContent = "Berechneter Packplan: ";
+        Tabelle_Pack.textContent = "Pack Reihenfolge";
+        Tabelle_Pack_Zylinder.textContent = "Zylinder IDs";
+        Tabelle_Node.textContent = "Laufende Nodes";
+        AblehnenBtn.textContent = "Ablehnen";
+        Bestätigen.textContent = "Bestätigen";
+        senden.textContent = "Senden";
+        user_input.placeholder = "Ihre Nachricht eingeben...";
+
+        option1.textContent = "Chat";
+        option2.textContent = "Szenenchat";
+        option3.textContent = "Befehl";
+
+        document.getElementById('InitialMessage').innerHTML = 'Hallo, Ich bin das LLM-AIP! Ich kenne die erkannten Objekte sowie deren Gewicht und Abmessungen und ich kann dir Fragen dazu beantworten. Wähle hierzu im Drop-Down die passende Option ("Chat" oder "Szenenchat"). Wenn du direkt Objekte packen möchtest dann nutze "Befehl".';
+
+        document.documentElement.lang = "de";
+        this.textContent = "Englisch";
+        this.src = "england-flagge.png"
+
+    } else {
+        console.log("Umgestellt auf Englische Sprache");
+
+        BoxBild.textContent = "Image of Box Content:";
+        PackBild.textContent = "Pack Planning:";
+        Tabelle_Pack.textContent = "Packing Sequence";
+        Tabelle_Pack_Zylinder.textContent = "Cylinder IDs";
+        Tabelle_Node.textContent = "Running Nodes";
+        AblehnenBtn.textContent = "Reject";
+        Bestätigen.textContent = "Confirm";
+        senden.textContent = "Send";
+        user_input.placeholder = "Please type in our request...";
+
+        option1.textContent = "Chat";
+        option2.textContent = "Scene chat";
+        option3.textContent = "Command";
+
+        document.documentElement.lang = "en";
+        this.textContent = "German";
+        this.src = "german_flag.png"
+
+        document.getElementById('InitialMessage').innerHTML = 'Hello, I am the LLM-AIP! I know the recognised objects as well as their weight and dimensions and I can answer your questions. Select the appropriate option in the drop-down menu (‘Chat’ or ‘Scene chat’). If you want to pack objects directly then use ‘Command’.';
+
+    }
+});
+});
+
 
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('disapprove-btn').addEventListener('click', function () {
