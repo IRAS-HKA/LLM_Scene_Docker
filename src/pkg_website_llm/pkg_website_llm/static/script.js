@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var userInput = document.getElementById('user-input').value;
         var communication_form = document.getElementById('dropdown-menu').value;
+
+        var selected_language = document.documentElement.lang;
         
         response_llm = ""
 
@@ -18,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
             userInput = "";
         }
 
-        let data_request = { user_input: userInput , communication_form: communication_form};
+        let data_request = { user_input: userInput , communication_form: communication_form, selected_language: selected_language};
         console.log(data_request);
         fetch('/button_click', {
             method: 'POST',
@@ -57,8 +59,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Simulate bot response
         setTimeout(function () {
-            addMessage('Das LLM bearbeitet gerade ihre Anfrage!', 'bot');
-
+            if (document.documentElement.lang == "de"){
+                addMessage('Das LLM bearbeitet gerade ihre Anfrage!', 'bot');
+            } else {
+                addMessage('The LLM is currently processing your request!', 'bot');
+            }
         }, 1000);
     });
 });
@@ -86,8 +91,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Simulate bot response
         setTimeout(function () {
-            addMessage('Auswahl wurde bestätigt und wird bearbeitet!', 'bot');
-
+            if (document.documentElement.lang == "de"){
+                addMessage('Auswahl wurde bestätigt und wird bearbeitet!', 'bot');
+            }
+            else {
+                addMessage('Selection has been confirmed and is being processed!', 'bot');
+            }
         }, 1000);
     });
 });
@@ -116,12 +125,16 @@ document.getElementById("language-toggle").addEventListener("click", function ()
     const option2 = document.getElementById('option2');
     const option3 = document.getElementById('option3'); 
 
+    const footer_1 = document.getElementById('footer_1');
+    const footer_2 = document.getElementById('footer_2');
+    const footer_3 = document.getElementById('footer_3');
+
 
     // Sprache wechseln
     if (currentLanguage === "en") {
         console.log("Umgestellt auf Deutsche Sprache")
-        BoxBild.textContent = "Greifbare Objekte: ";
-        PackBild.textContent = "Berechneter Packplan: ";
+        BoxBild.textContent = "Detektierte Objekte ";
+        PackBild.textContent = "Berechneter Packplan ";
         Tabelle_Pack.textContent = "Pack Reihenfolge";
         Tabelle_Pack_Zylinder.textContent = "Zylinder IDs";
         Tabelle_Node.textContent = "Laufende Nodes";
@@ -134,7 +147,12 @@ document.getElementById("language-toggle").addEventListener("click", function ()
         option2.textContent = "Szenenchat";
         option3.textContent = "Befehl";
 
-        document.getElementById('InitialMessage').innerHTML = 'Hallo, Ich bin das LLM-AIP! Ich kenne die erkannten Objekte sowie deren Gewicht und Abmessungen und ich kann dir Fragen dazu beantworten. Wähle hierzu im Drop-Down die passende Option ("Chat" oder "Szenenchat"). Wenn du direkt Objekte packen möchtest dann nutze "Befehl".';
+        footer_1.textContent = "Forschung & Entwicklungsprojekt 2";
+        footer_2.textContent = "Von Raphael Aberle, Andreas Schmitt, Leo Schäfer, Maurice Droll und Eshan Savla";
+        footer_3.textContent = "Hochschule Karlsruhe";
+
+
+        document.getElementById('InitialMessage').innerHTML = 'Hallo, Ich bin das AIP-LLM! <br> Ich kenne die detektierten Objekte sowie deren Gewicht und Abmessungen und ich kann dir Fragen dazu beantworten.<br> Wähle hierzu im Drop-Down die passende Option ("Chat" oder "Szenenchat"). <br> Mit der Option "Szenenchat" nutzt das LLM Kontextinformationen der detektierten Objekte, die Option "Chat" kennt diese nicht. <br> Wenn du direkt Objekte packen möchtest dann nutze "Befehl".';
 
         document.documentElement.lang = "de";
         this.textContent = "Englisch";
@@ -143,25 +161,29 @@ document.getElementById("language-toggle").addEventListener("click", function ()
     } else {
         console.log("Umgestellt auf Englische Sprache");
 
-        BoxBild.textContent = "Image of Box Content:";
-        PackBild.textContent = "Pack Planning:";
+        BoxBild.textContent = "Image of Box Content";
+        PackBild.textContent = "Pack Planning";
         Tabelle_Pack.textContent = "Packing Sequence";
         Tabelle_Pack_Zylinder.textContent = "Cylinder IDs";
         Tabelle_Node.textContent = "Running Nodes";
         AblehnenBtn.textContent = "Reject";
         Bestätigen.textContent = "Confirm";
         senden.textContent = "Send";
-        user_input.placeholder = "Please type in our request...";
+        user_input.placeholder = "Please type in your request...";
 
         option1.textContent = "Chat";
         option2.textContent = "Scene chat";
         option3.textContent = "Command";
 
+        footer_1.textContent = "Research & Development Project 2";
+        footer_2.textContent = "By Raphael Aberle, Andreas Schmitt, Leo Schäfer, Maurice Droll and Eshan Savla";
+        footer_3.textContent = "Karlsruhe University of Applied Sciences";
+
         document.documentElement.lang = "en";
         this.textContent = "German";
         this.src = "german_flag.png"
 
-        document.getElementById('InitialMessage').innerHTML = 'Hello, I am the LLM-AIP! I know the recognised objects as well as their weight and dimensions and I can answer your questions. Select the appropriate option in the drop-down menu (‘Chat’ or ‘Scene chat’). If you want to pack objects directly then use ‘Command’.';
+        document.getElementById('InitialMessage').innerHTML = 'Hello, I am the LLM-AIP! <br> I have information on the detected objects, their dimensions and their weight and I can answer your questions. <br> Select the appropriate option in the drop-down menu (‘Chat’ or ‘Scene chat’).<br> With the ‘Scene chat’ option, the LLM uses context information of the detected objects; the ‘Chat’ option does not use the context info.<br> If you want to pack objects directly then use ‘Command’.';
 
     }
 });
@@ -190,8 +212,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Simulate bot response
         setTimeout(function () {
-            addMessage('Auswahl wurde abgelehnt!', 'bot');
-
+            if (document.documentElement.lang == "de"){
+                addMessage('Auswahl wurde abgelehnt!', 'bot');
+            } else{
+                addMessage('Selection has been rejected!', 'bot');
+            }
         }, 1000);
     });
 });

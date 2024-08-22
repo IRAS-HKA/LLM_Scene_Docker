@@ -25,13 +25,13 @@
 
     <div class="main">
         <div class="picture-container" style="color: white">
-            <h2 id= "BoxBild"style="color: white" >Greifbare Objekte: </h2>
+            <h2 id= "BoxBild"style="color: white" >Detektierte Objekte </h2>
             <img id="image" src="Hintergrund.png" alt="" width="480" height="480">
 
         </div>
 
         <div class="picture-container" style="color: white">
-            <h2 id ="pack_heading" style="color: white" >Berechneter Packplan:</h2>
+            <h2 id ="pack_heading" style="color: white" >Berechneter Packplan</h2>
             <img id="image_Pack" src="PackPlanBild.png" alt="" onerror="this.onerror=null; this.src='Platzhalter.png';" width="480" height="400">
             <p id ="pack_heading_text" style="color: white" ></p>
         </div>
@@ -39,7 +39,7 @@
 
         <div class="chat-container" style="color: white">
             <div class="chat-box" id="chat-box">
-                <div id= "InitialMessage" class="message bot-message">Hallo, Ich bin das LLM-AIP! Ich kenne die erkannten Objekte sowie deren Gewicht und Abmessungen und ich kann dir Fragen dazu beantworten. Wähle hierzu im Drop-Down die passende Option ("Chat" oder "Szenenchat"). Wenn du direkt Objekte packen möchtest dann nutze "Befehl". </div>
+                <div id= "InitialMessage" class="message bot-message">Hallo, Ich bin das AIP-LLM! <br> Ich kenne die detektierten Objekte sowie deren Gewicht und Abmessungen und ich kann dir Fragen dazu beantworten. <br> Wähle hierzu im Drop-Down die passende Option ("Chat" oder "Szenenchat"). <br> Mit der Option "Szenenchat" nutzt das LLM Kontextinformationen der detektierten Objekte, die Option "Chat" kennt diese nicht. <br> Wenn du direkt Objekte packen möchtest dann nutze "Befehl". </div>
             </div>
             
             <div class="input-container">
@@ -94,9 +94,9 @@
 
     <div class="footer">
         <img src="HKA_Logo.png" style="width: 400px; height: auto; float: right;">
-        <h3 style="color: white; font-size: larger;">Forschung & Entwicklungsprojekt 2</h3>
-        <h3 style="color: white; font-size: small;" >Von Raphael Aberle, Andreas Schmitt, Leo Schäfer, Maurice Droll und Eshan Savla </h1>
-        <h3 style="color: white; font-size: small;">Hochschule Karlsruhe</h3>
+        <h3 id ="footer_1" style="color: white; font-size: larger;">Forschung & Entwicklungsprojekt 2</h3>
+        <h3 id ="footer_2" style="color: white; font-size: small;" >Von Raphael Aberle, Andreas Schmitt, Leo Schäfer, Maurice Droll und Eshan Savla </h1>
+        <h3 id ="footer_3" style="color: white; font-size: small;">Hochschule Karlsruhe</h3>
     </div>
   
   </section>

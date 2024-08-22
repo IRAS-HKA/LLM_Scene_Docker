@@ -67,7 +67,9 @@ def button_click():
     data = request.json
     user_input = data.get('user_input', '')
     command = data.get('communication_form', '')
-    server.get_logger().info(f"Command (von webseite_llm): {command} and User Input: {user_input}")
+    sel_language = data.get('selected_language', '')
+    
+    server.get_logger().info(f"Command (von webseite_llm): {command} and User Input: {user_input} and language is: {sel_language}")
 
     # write it to the ROS2 parameter server    
     #parameter_setter = ParamGetter()
@@ -77,6 +79,8 @@ def button_click():
     mod_user_input = "'" + user_input.replace("BEFEHL:", "").replace("Frage:", "")  + "'"
     FileReadWriter.writeUserInputFile("user_input", mod_user_input)
     FileReadWriter.writeUserInputFile("user_command", command)
+    FileReadWriter.writeUserInputFile("sel_language", sel_language)
+
     
     # This is to call the LLM Action server directly
     future = server.send_goal(user_input)
@@ -94,8 +98,10 @@ def button_click():
     server.get_logger().info(f"Ergebnis Typ: {type(result)}  {result}")
     
     # Give the feedback to the user in a chat bubble
-    if "command" in command:
+    if "command" in command and sel_language == "de":
         result = "Diese Objekte werden gepackt: " + result
+    elif "command" in command and sel_language == "en":
+        result = "These objects are being packed: " + result
     else :
         result = ""+ result 
       

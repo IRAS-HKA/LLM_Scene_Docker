@@ -16,13 +16,17 @@ class PostProcessing:
                 return content['name']
             
             elif (type(content) == str) :
+                # Language DE
                 search_objects = ['Box_Gluehlampe', 'Box_Wischblatt','Keilriemen_gross', 'Box_Bremsbacke', 'Keilriemen_klein','Box_Messwertgeber','Box\_Gluehlampe', 'Box\_Wischblatt','Keilriemen\_gross', 'Box\_Bremsbacke', 'Keilriemen\_klein','Box\_Messwertgeber']
-
+                # Language EN
+                search_objects_eng = ['Box_Glowlamp', 'V-belt_large','Box_Wipingblade', 'V-belt_small', 'Bag','Box_Measurementtransmitter']
+                
+                combined_search_objects = search_objects + search_objects_eng
                 # Ergebnisliste der gefundenen Strings
                 found_objects = []
 
                 # Über die Liste von Such-Strings iterieren und prüfen, ob sie im langen Satz vorkommen
-                for s in search_objects:
+                for s in combined_search_objects:
                     if s in content:
                         found_objects.append(s)
 

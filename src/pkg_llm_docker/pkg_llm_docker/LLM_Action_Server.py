@@ -79,8 +79,11 @@ class LLMActionServer(Node):
         #parameter_getter = ParamGetter()
         #user_command = parameter_getter.get_ros2_param('user_command')
         user_command = FileReadWriter.readUserInputFile('user_command')
+        sel_language = FileReadWriter.readUserInputFile('sel_language')
         
-        prompt = preprocessing_unit.formatPrompt("",user_input, str(user_command))
+        self.get_logger().info('sel_language: {0}'.format(sel_language))
+        
+        prompt = preprocessing_unit.formatPrompt("",user_input, str(user_command), str(sel_language))
         
         # Create Prompt for the LLM (PreProcessing done) and send feedback after 50 %
         # if "BEFEHL" in user_input:
@@ -98,6 +101,7 @@ class LLMActionServer(Node):
         
         # Start the LLM
         result_dict = MainLLM.startLLM(prompt, user_input,str(user_command))
+        
         goal_handle.publish_feedback(feedback_msg)
         goal_handle.succeed()
 
@@ -106,7 +110,12 @@ class LLMActionServer(Node):
         
         
         try:
-            param = ParamGetter()
+            #param = ParamGetter()
+            # Translate back to German
+            if sel_language == "en":
+                self.get_logger().info('Result (Englisch): {0}'.format(result_dict))
+                result_dict = FileReadWriter.translateToGerman(result_dict)
+            
             mod_user_input = "'" + str(result_dict)  + "'"
             #param.set_ros2_param('pack_list', mod_user_input)
             FileReadWriter.writeUserInputFile('pack_list', mod_user_input)

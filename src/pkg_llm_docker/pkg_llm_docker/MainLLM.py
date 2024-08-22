@@ -17,9 +17,6 @@ class AnswerFormat(BaseModel):
 
 class MainLLM:
    
-  #def __init__(self,sceneDescriptionUnsorted):
-  #  self.sceneDescriptionUnsorted = sceneDescriptionUnsorted
-  #  pass
   
   def combinePrompt():
     # get User Question -> Flask (parameter)
@@ -50,12 +47,8 @@ class MainLLM:
 
     while True:
       try:
-        #response_JSON_Wischblatt_Assistant= OllamaInteraction.getObjectFromScene('mistral-nemo','assistant', prompt)
-        #response_JSON_Wischblatt_Assistant= OllamaInteraction.getGeneratedObjectFromScene(prompt)
-        
-        #print(response_JSON_Wischblatt_Assistant)
+
         print("-----")
-        #dict_response = response_JSON_Wischblatt_Assistant
         print("-----")
         print("response_JSON_Wischblatt_Assistant", response_JSON_Wischblatt_Assistant)
         print("----")
