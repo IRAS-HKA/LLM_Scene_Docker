@@ -10,23 +10,19 @@ from .ActionClientToPreProcessing import LLMActionClient
 from .PackItemServer import PackItemsService
 from .SelectedItemsToPack import SelectedItems
 
-from .ParamGetter import ParamGetter
 from .FileReadWriter import FileReadWriter
 
 import os
 import glob
 import re
 
-# Assuming this script is located in ros_ws/src/pkg_website_llm/pkg_website_llm/website_llm.py
-# Get the absolute path to the directory containing this script
+
 current_dir = os.path.abspath(os.path.dirname(__file__))
-print("Vor Slash")
-print(current_dir)
+
 
 # Set the templates folder to the 'templates' directory relative to the current directory
 template_dir = os.path.join(current_dir, 'templates')
 
-#static_dir = os.path.join(current_dir, 'static')
 
 static_dir = '/home/robot/ros_ws/src/pkg_website_llm/pkg_website_llm/static'
 
@@ -49,9 +45,7 @@ def index():
     if os.path.exists(file_path_pack):
         server.get_logger().info("PackPlanBild.png wird gelöscht")
         os.remove(file_path_pack)
-    # for root, dirs, files in os.walk(static_dir):
-    #     for file in files:
-    #         server.get_logger().info(os.path.join(root, file))
+
     
     FileReadWriter.writeWebsiteFeedbackInitially()
     FileReadWriter.writeUserInputInitially()
@@ -71,11 +65,7 @@ def button_click():
     
     server.get_logger().info(f"Command (von webseite_llm): {command} and User Input: {user_input} and language is: {sel_language}")
 
-    # write it to the ROS2 parameter server    
-    #parameter_setter = ParamGetter()
-    #mod_user_input = "'" + user_input.replace("BEFEHL:", "").replace("Frage:", "")  + "'"
-    #parameter_setter.set_ros2_param('user_input',mod_user_input)
-    #parameter_setter.set_ros2_param('user_command', command)
+    # Write the user input to a file
     mod_user_input = "'" + user_input.replace("BEFEHL:", "").replace("Frage:", "")  + "'"
     FileReadWriter.writeUserInputFile("user_input", mod_user_input)
     FileReadWriter.writeUserInputFile("user_command", command)
@@ -112,8 +102,6 @@ def button_click():
 def button_approve():
     
     # Set User approval to True
-    #parameter_setter = ParamGetter()
-    #parameter_setter.set_ros2_param('user_approval',"True")
     FileReadWriter.writeUserInputFile("user_approval", "True")
     
     return jsonify({"message": "Approved by user!", "received": "Approval"})
@@ -122,8 +110,6 @@ def button_approve():
 def button_disapprove():
 
     # Set User approval to False
-    #parameter_setter = ParamGetter()
-    #parameter_setter.set_ros2_param('user_approval', "False")
     FileReadWriter.writeUserInputFile("user_approval", "False")
 
 
@@ -132,37 +118,6 @@ def button_disapprove():
 @app.route('/get_data')
 def get_data():
     
-    # this method is used to get the website feedback data from the ROS2 parameter server
-    # parameter_getter = ParamGetter()
-
-    # if parameter_getter.checkIfNodeAvailable("/LLM/Parameter_Setter"):
-        
-    #     server.get_logger().info("Node gefunden!")
-    #     class_id_packages =  parameter_getter.get_ros2_param('package')
-    #     class_names = re.findall(r"class_name='(.*?)'", class_id_packages)
-    #     server.get_logger().info(class_id_packages)
-    #     cylinder_Ids_string =  parameter_getter.get_ros2_param('cylinder_Ids')
-    #     cylinder_ids = re.findall(r"cylinder_ids=\[(.*?)\]", cylinder_Ids_string)
-    #     cylinder_ids_lists = [list(map(int, ids.split(','))) for ids in cylinder_ids]
-        
-    #     node_list = parameter_getter.get_ros2_param('node_list')
-
-
-    #     data = {
-    #         'package_content': class_names,
-    #         'cylinder_ids': cylinder_ids_lists,
-    #         'node_list': node_list.replace("String value is: ", ""),  
-    #     }
-    # else:
-    #     #server.get_clock().sleep_for(rclpy.duration.Duration(seconds=5))
-    #     server.get_logger().info("Node NICHT gefunden!")
-    #     data = {
-    #         'package_content': "NO DATA",
-    #         'cylinder_ids': "NO DATA",
-    #         'node_list': "NO DATA", 
-    #     }
-
-
     try:
         class_id_packages = FileReadWriter.readWebsiteFeedbackFile("package")
         class_names = re.findall(r"class_name='(.*?)'", class_id_packages)
@@ -182,6 +137,7 @@ def get_data():
             'feedback_string': feedback_string,  
         }
     except:
+        
         data = {
             'package_content': "NO DATA",
             'cylinder_ids': "NO DATA",

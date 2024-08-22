@@ -24,7 +24,6 @@ from rclpy.executors import MultiThreadedExecutor
 
 from llm_action_interfaces.action import LLM
 
-from pkg_website_llm.ParamGetter import ParamGetter
 
 from pkg_website_llm.FileReadWriter import FileReadWriter
 
@@ -76,8 +75,7 @@ class LLMActionServer(Node):
         goal_handle.publish_feedback(feedback_msg)
         
         
-        #parameter_getter = ParamGetter()
-        #user_command = parameter_getter.get_ros2_param('user_command')
+
         user_command = FileReadWriter.readUserInputFile('user_command')
         sel_language = FileReadWriter.readUserInputFile('sel_language')
         
@@ -110,14 +108,13 @@ class LLMActionServer(Node):
         
         
         try:
-            #param = ParamGetter()
             # Translate back to German
             if sel_language == "en":
                 self.get_logger().info('Result (Englisch): {0}'.format(result_dict))
                 result_dict = FileReadWriter.translateToGerman(result_dict)
             
             mod_user_input = "'" + str(result_dict)  + "'"
-            #param.set_ros2_param('pack_list', mod_user_input)
+
             FileReadWriter.writeUserInputFile('pack_list', mod_user_input)
         except Exception as e:
             self.get_logger().error(f'Saving parameter pack_list failed {e}')

@@ -1,14 +1,5 @@
 from .MainLLM import AnswerFormat
-#import roslib
-#roslib.load_manifest('pkg_website_llm')
-#from pkg_website_llm.UserInput import UserInput
-#import fakeOdtf
 
-# from rclpy.node import Node
-# import ast
-# import yaml
-# import os
-# import rclpy
 
 from .shared import Node, ast, yaml, os, rclpy
 from pkg_website_llm.FileReadWriter import FileReadWriter
@@ -24,16 +15,8 @@ class PreProcessing(Node):
         
         current_directory = os.getcwd()
 
-        print(f"Das aktuelle Verzeichnis ist: {current_directory}")
-        
-        #yaml_data = open('./material_master.yaml', 'r')
         yaml_data = open('/home/robot/ros_ws/src/pkg_llm_docker/pkg_llm_docker/material_master.yaml', 'r')
-        
-        if os.path.isfile('/home/robot/ros_ws/src/pkg_llm_docker/pkg_llm_docker/material_master.yaml'):
-            print(f"{yaml_data} ist eine Datei.")
-        else:
-            print(f"{yaml_data} ist keine Datei.")
-        
+               
         # YAML-Daten laden
         data = yaml.safe_load(yaml_data)
         
@@ -61,48 +44,34 @@ class PreProcessing(Node):
         return object_mass,length_mass,width_mass,height_mass
 
 
-    # def receiveDetections(self):
-    #     # Call the DetectionSubscriber Node
-    #     #rclpy.init(args=None)
 
-    #     #my_subscriber = DetectionSubscriber()
-
-    #     #rclpy.spin(my_subscriber)
-        
-    #     #my_subscriber.destroy_node()
-    #     #rclpy.shutdown()
-    #     #self.detections = my_subscriber.detections
-    #     pass
     
-    # Abfrage 
+    
     def formatPrompt(self,sceneDescription,userInput, chatmodus, sel_language):
         
         # Receive the detections from the DetectionSubscriber
         #self.receiveDetections()
         
-        #prompt = f'Es liegt die folgende Szene vor: Wir haben eine Box mit Gegenständen darin: 1. {sceneDescription[0].class_name} mit der Eigenschaft x= {sceneDescription[0].center.x} y={sceneDescription[0].center.y} z= {sceneDescription[0].center.z}  2. Keilriemen_gross mit der Eigenschaft x=629.5, y=405.5, z=0.0 3. Box_Messwertgeber mit der Eigenschaft x=800.0, y=524.0, z=0.0. Wo befindet sich der das Wischblatt?: {AnswerFormat.schema_json()} :\n'
-        classname = ["Box_Wischblatt", "Keilriemen_gross", "Box_Messwertgeber", "Keilriemen_klein"]
-        center_x = [543.5, 629.5, 800.0, 500.4]
-        center_y = [608.5, 405.5, 524.0, 320.1]
-        center_z=  [0.01, 0.001, 0.002, 0.01]
-        object_mass,length_mass,width_mass,height_mass = PreProcessing.loadAdditionalInformationYAML(self,classname)
-        
-        
-        # classname = []
-        # center_x = []
-        # center_y = []
-        
-        # # Put the detections in the arrays
-        # for detection in self.detections:
-        #     classname.append(detection.class_name)
-        #     center_x.append(detection.center.x)
-        #     center_y.append(detection.center.y)
+        # Hard coded scene description for debugging without the detection subscriber
+        # classname = ["Box_Wischblatt", "Keilriemen_gross", "Box_Messwertgeber", "Keilriemen_klein"]
+        # center_x = [543.5, 629.5, 800.0, 500.4]
+        # center_y = [608.5, 405.5, 524.0, 320.1]
+        # center_z=  [0.01, 0.001, 0.002, 0.01]
         # object_mass,length_mass,width_mass,height_mass = PreProcessing.loadAdditionalInformationYAML(self,classname)
         
         
-         
+        classname = []
+        center_x = []
+        center_y = []
         
-        print(f"sel_language: {sel_language}")
+        # Put the detections in the arrays
+        for detection in self.detections:
+            classname.append(detection.class_name)
+            center_x.append(detection.center.x)
+            center_y.append(detection.center.y)
+        object_mass,length_mass,width_mass,height_mass = PreProcessing.loadAdditionalInformationYAML(self,classname)
+        
+                
         # Change the prompt based on the language
         if (sel_language == "de"):
             
@@ -147,22 +116,6 @@ class PreProcessing(Node):
             
         else:
             return "Error: Language not supported."
-        
-        
-        # classname = ["Box_Wischblatt", "Keilriemen_gross", "Box_Messwertgeber", "Keilriemen_klein"]
-        # center_x = [543.5, 629.5, 800.0, 500.4]
-        # center_y = [608.5, 405.5, 524.0, 320.1]
-        # center_z=  [0.01, 0.001, 0.002, 0.01]
-
-        
-
-
-
-
-        #if "BEFEHL:" in user_command:
-        #    userInput = userInput.replace("BEFEHL:","")
-        
-
         
 
         return prompt

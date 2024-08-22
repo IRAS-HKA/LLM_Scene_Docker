@@ -1,7 +1,6 @@
 import rclpy
 from rclpy.node import Node
 
-from .ParamGetter import ParamGetter
 from std_srvs.srv import Empty
 
 
@@ -17,10 +16,7 @@ class MinimalService(Node):
                 
             
 
-        # param = ParamGetter()
-        # param.set_ros2_param('user_input', 'No Input')
-        # param.set_ros2_param('pack_list', 'No Input')
-        # param.set_ros2_param('user_approval', "False")
+
 
 
         self.get_logger().info('DELETED userinput, pack_list and user_approval')

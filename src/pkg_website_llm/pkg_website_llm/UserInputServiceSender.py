@@ -5,13 +5,11 @@ from .UserInput import UserInput
 from threading import Timer
 import time
 
-from .ParamGetter import ParamGetter
 from .FileReadWriter import FileReadWriter
 
 class UserInputService(Node):
 
     def __init__(self):
-        #rclpy.init(args=None)
         super().__init__('UserInputServiceSender')
         self.srv = self.create_service(UserInteraction, 'user_interaction', self.userinput_callback)
         
@@ -19,14 +17,13 @@ class UserInputService(Node):
 
     def userinput_callback(self, request, response):
         
-        param = ParamGetter()
         while True:
-            #if (param.get_ros2_param("user_input") == None):
+
             if (FileReadWriter.readUserInputFile("user_input")== None):
                 time.sleep(2)
                 self.get_logger().info('NO User Input available yet. Waiting for data...')
                 continue
-            #user_input = param.get_ros2_param("user_input")
+
             user_input = FileReadWriter.readUserInputFile("user_input")
             user_input = user_input.replace("String value is:", "")
             user_input = user_input.strip()

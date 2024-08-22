@@ -8,8 +8,6 @@ import cv2
 import os
 from .FileReadWriter import FileReadWriter
 
-from .ParamGetter import ParamGetter
-
 
 class MinimalService(Node):
 
@@ -35,13 +33,6 @@ class MinimalService(Node):
         image_path = os.path.join(self.save_path, image_name)
         cv2.imwrite(image_path, cv_image)
         self.get_logger().info(f'Saved image to {image_path}')
-
-        param = ParamGetter()
-        # param.set_ros2_param('cylinder_Ids', str(request.cylinder_ids))
-        # param.set_ros2_param('package', str(request.package))
-        # param.set_ros2_param('feedback_message', str(request.feedback.message))
-        
-        # param.set_ros2_param('', str(param.listAllNodes()))
 
         FileReadWriter.writeWebsiteFeedbackInitially()
 
