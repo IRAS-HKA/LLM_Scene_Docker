@@ -152,7 +152,7 @@ document.getElementById("language-toggle").addEventListener("click", function ()
         footer_3.textContent = "Hochschule Karlsruhe";
 
 
-        document.getElementById('InitialMessage').innerHTML = 'Hallo, Ich bin das AIP-LLM! <br> Ich kenne die detektierten Objekte sowie deren Gewicht und Abmessungen und ich kann dir Fragen dazu beantworten.<br> Wähle hierzu im Drop-Down die passende Option ("Chat" oder "Szenenchat"). <br> Mit der Option "Szenenchat" nutzt das LLM Kontextinformationen der detektierten Objekte, die Option "Chat" kennt diese nicht. <br> Wenn du direkt Objekte packen möchtest dann nutze "Befehl".';
+        document.getElementById('InitialMessage').innerHTML = 'Hallo,<br> Ich bin das LLM von AIP! <br> Ich kenne die detektierten Objekte sowie deren Gewicht und Abmessungen. <br> Außerdem stehe ich dir für Fragen dazu zur Verfügung. <br>  Über das Dropdown-Menü gibt es drei verschiedene Optionen zur Interaktion: Chat, Szenenchat und Befehl.<br> Wohingegen das LLM bei "Chat" nicht auf Szeneninformationen zurückgreift, werden im Modus "Szenenchat" die Kontextinformationen der detektierten Objekte genutzt. <br> Die Option "Befehl" wird eingesetzt, wenn Objekte direkt gepackt werden sollen.';
 
         document.documentElement.lang = "de";
         this.textContent = "Englisch";
@@ -183,7 +183,7 @@ document.getElementById("language-toggle").addEventListener("click", function ()
         this.textContent = "German";
         this.src = "german_flag.png"
 
-        document.getElementById('InitialMessage').innerHTML = 'Hello, I am the LLM-AIP! <br> I have information on the detected objects, their dimensions and their weight and I can answer your questions. <br> Select the appropriate option in the drop-down menu (‘Chat’ or ‘Scene chat’).<br> With the ‘Scene chat’ option, the LLM uses context information of the detected objects; the ‘Chat’ option does not use the context info.<br> If you want to pack objects directly then use ‘Command’.';
+        document.getElementById('InitialMessage').innerHTML = 'Hello,<br> I am the LLM from AIP! <br> I have information on the detected objects, their dimensions and their weight and I can answer your questions. <br> Select the appropriate option in the drop-down menu (‘Chat’ or ‘Scene chat’).<br> With the ‘Scene chat’ option, the LLM uses context information of the detected objects; the ‘Chat’ option does not use the context info.<br> If you want to pack objects directly then use ‘Command’.';
 
     }
 });
