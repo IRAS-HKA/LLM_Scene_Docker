@@ -1,4 +1,0 @@
-string user_input
-object_detector_tensorflow_interfaces/Detections detections
----
-string[] objects_to_pick

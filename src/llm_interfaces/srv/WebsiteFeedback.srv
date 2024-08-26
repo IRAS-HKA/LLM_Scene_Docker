@@ -1,0 +1,6 @@
+aip_packing_planning_interfaces/PackageSequence package
+SolutionFeedback feedback 
+aip_grasp_planning_interfaces/CylinderCombination[] cylinder_ids
+geometry_msgs/Pose[] grasp_poses
+geometry_msgs/Pose[] place_poses
+---

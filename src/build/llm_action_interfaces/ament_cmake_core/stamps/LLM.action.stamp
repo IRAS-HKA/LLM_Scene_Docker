@@ -1,5 +1,0 @@
-string userinput
----
-string llmoutput
----
-int16 progress

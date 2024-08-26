@@ -1,8 +1,0 @@
-{
-  "package_name": "llm_interfaces",
-  "non_idl_tuples": [
-    "/home/robot/ros_ws/src/llm_interfaces:srv/SceneInterpretation.srv",
-    "/home/robot/ros_ws/src/llm_interfaces:srv/UserInteraction.srv",
-    "/home/robot/ros_ws/src/llm_interfaces:srv/PackItems.srv"
-  ]
-}

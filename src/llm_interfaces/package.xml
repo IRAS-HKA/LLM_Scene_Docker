@@ -16,6 +16,12 @@
   <depend>rosidl_typesupport_interface</depend>
   <depend>object_detector_tensorflow_interfaces</depend>
   <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>aip_packing_planning_interfaces</depend>
+  <depend>aip_grasp_planning_interfaces</depend>
+  
   <member_of_group>rosidl_interface_packages</member_of_group>'
   <exec_depend>rosidl_default_runtime</exec_depend>
   

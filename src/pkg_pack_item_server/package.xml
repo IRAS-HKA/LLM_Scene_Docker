@@ -13,8 +13,8 @@
   <test_depend>python3-pytest</test_depend>
   <depend>llm_interfaces</depend>  
 
-
   <export>
     <build_type>ament_python</build_type>
+    <launch_file>launch/pack_item.launch.py</launch_file>
   </export>
 </package>

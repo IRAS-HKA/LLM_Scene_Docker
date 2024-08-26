@@ -1,6 +1,0 @@
-action/LLM.action
-action/LLM.idl
-srv/SolutionImage.idl
-srv/SolutionImage.srv
-srv/SolutionImage_Request.msg
-srv/SolutionImage_Response.msg

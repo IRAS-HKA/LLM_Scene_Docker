@@ -18,6 +18,7 @@ set(DEPENDENCIES
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/SolutionImage.srv"
+  "msg/SolutionFeedback.msg"
   "action/LLM.action"
   DEPENDENCIES ${DEPENDENCIES}
 )

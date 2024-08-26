@@ -1,7 +1,0 @@
-{
-  "package_name": "llm_action_interfaces",
-  "non_idl_tuples": [
-    "/home/robot/ros_ws/src/llm_action_interfaces:action/LLM.action",
-    "/home/robot/ros_ws/src/llm_action_interfaces:srv/SolutionImage.srv"
-  ]
-}

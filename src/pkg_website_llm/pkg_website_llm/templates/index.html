@@ -10,48 +10,98 @@
     <link rel="stylesheet" href="/home/robot/ros_ws/src/pkg_website_llm/pkg_website_llm/templates/style.css"> -->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="static/style_chatbot.css">
-    <script src="/static/script.js"></script>
+    <link rel="stylesheet" href="./style_chatbot.css"> 
+    <script src="./script.js"></script>
 
 </head>
 <section class="layout">
     <div class="header">
-        <h1 style="color: white">AIP Webseite</h1>
+        <div class="header-container" >
+            <!-- <button id="language-toggle">Englisch</button> -->
+             <image id="language-toggle" src="england-flagge.png" style="width: 100px; height: 100px; float: left;">
+            <h1 style="color: white; text-align: center;">Automated Item Picking - Large Language Model</h1>
+        </div>
     </div>
 
     <div class="main">
         <div class="picture-container" style="color: white">
-            <h2 style="color: white" >Image of Box Content</h2>
-            <img id="image" src="/static/images/Hintergrund.png" alt="ROS2 Image" width="480" height="480">
+            <h2 id= "BoxBild"style="color: white" >Detektierte Objekte </h2>
+            <img id="image" src="Hintergrund.png" alt="" width="480" height="480">
 
         </div>
+
         <div class="picture-container" style="color: white">
-            <h2 style="color: white" >Pack Planning</h2>
-            <img id="image" src="/static/images/Platzhalter.png" alt="ROS2 Image" width="480" height="480">
-
+            <h2 id ="pack_heading" style="color: white" >Berechneter Packplan</h2>
+            <img id="image_Pack" src="PackPlanBild.png" alt="" onerror="this.onerror=null; this.src='Platzhalter.png';" width="480" height="400">
+            <p id ="pack_heading_text" style="color: white" ></p>
         </div>
+
 
         <div class="chat-container" style="color: white">
             <div class="chat-box" id="chat-box">
-                <div class="message bot-message">Hallo! Wie kann ich Ihnen helfen?</div>
+                <div id= "InitialMessage" class="message bot-message">Hallo,<br> Ich bin das LLM von AIP! <br> Ich kenne die detektierten Objekte sowie deren Gewicht und Abmessungen. <br> Außerdem stehe ich dir für Fragen dazu zur Verfügung. <br> Über das Dropdown-Menü gibt es drei verschiedene Optionen zur Interaktion: Chat, Szenenchat und Befehl.<br> Wohingegen das LLM bei "Chat" nicht auf Szeneninformationen zurückgreift, werden im Modus "Szenenchat" die Kontextinformationen der detektierten Objekte genutzt. <br> Die Option "Befehl" wird eingesetzt, wenn Objekte direkt gepackt werden sollen.</div>
             </div>
+            
             <div class="input-container">
-                <input type="text" id="user-input" placeholder="Ihre Nachricht...">
+                <input type="text" id="user-input" placeholder="Ihre Nachricht eingeben...">
+                <select id="dropdown-menu">
+                    <option id = "option1" value="chat">Chat</option>
+                    <option id = "option2" value="scenechat">Szenen-Chat</option>
+                    <option id = "option3" value="command">Befehl</option>
+                </select>
                 <button id="send-btn"> Senden</button>
-                <!-- onclick="buttonClick()" -->
             </div>
+
         </div>
+
     </div>
+    
+    <div class="main_2nd_row">
+        <div class="feedback-container" style="color: white">
+            <table id="myTable">
+                <thead>
+                    <tr>
+                        <th>Packreihenfolge</th>
+                        <th>Zylinder IDs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamische Inhalte werden hier eingefügt -->
+                </tbody>
+            </table> 
+        </div>
+
+        <div class="running-nodes" style="color: white">
+            <table id="NodeTable">
+                <thead>
+                    <tr>
+                        <th>Laufende Nodes</th>
+                        <th>  </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamische Inhalte werden hier eingefügt -->
+                </tbody>
+            </table>>
+        </div>
+
+        <div class="consent-box" id="consent_user">
+            <button id="disapprove-btn"> Ablehnen</button>
+            <button id="approve-btn"> Bestätigen</button>
+        </div>
+
+    </div>
+
     <div class="footer">
-        <h3 style="color: white">Forschung und Entwicklungsprojekt 2</h3>
-        <h3 style="color: white">Von Raphael Aberle, Andreas Schmitt, Leo Schäfer, Maurice Droll und Eshan Savla </h1>
-
-
-
+        <img src="HKA_Logo.png" style="width: 400px; height: auto; float: right;">
+        <h3 id ="footer_1" style="color: white; font-size: larger;">Forschung & Entwicklungsprojekt 2</h3>
+        <h3 id ="footer_2" style="color: white; font-size: small;" >Von Raphael Aberle, Andreas Schmitt, Leo Schäfer, Maurice Droll und Eshan Savla </h1>
+        <h3 id ="footer_3" style="color: white; font-size: small;">Hochschule Karlsruhe</h3>
     </div>
-  </section>
   
-<body style="background-image: url('/static/images/Hintergrund.png');">
+  </section>
+
+<body>
 
 
 

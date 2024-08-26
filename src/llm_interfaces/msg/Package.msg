@@ -1,0 +1,5 @@
+string class_name
+geometry_msgs/Vector3 dimensions
+float32 weight
+uint32 rotation_index
+geometry_msgs/Point place_coordinates

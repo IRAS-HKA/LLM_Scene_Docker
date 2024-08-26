@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'my_llm_node = pkg_llm_docker.my_llm_node:main'
+            'my_llm_node = pkg_llm_docker.my_llm_node:main',
+            'llm_action_server = pkg_llm_docker.LLM_Action_Server:main',
         ],
     },
 )

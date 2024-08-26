@@ -1,2 +1,0 @@
-string user_input
-object_detector_tensorflow_interfaces/Detections detections

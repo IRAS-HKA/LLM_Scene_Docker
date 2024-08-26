@@ -6,7 +6,7 @@ source /home/robot/ros_ws/install/setup.bash
 srv="ollama serve"
 $srv &
 sleep 5
-ollama run mistral
+ollama run mistral-nemo
 
 
 
