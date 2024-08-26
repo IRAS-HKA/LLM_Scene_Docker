@@ -7,6 +7,7 @@ from cv_bridge import CvBridge
 import cv2
 import os
 from .FileReadWriter import FileReadWriter
+from .ParamGetter import ParamGetter
 
 
 class MinimalService(Node):
@@ -33,6 +34,8 @@ class MinimalService(Node):
         image_path = os.path.join(self.save_path, image_name)
         cv2.imwrite(image_path, cv_image)
         self.get_logger().info(f'Saved image to {image_path}')
+        
+        param = ParamGetter()
 
         FileReadWriter.writeWebsiteFeedbackInitially()
 
