@@ -18,7 +18,6 @@ class SelectedItems:
     def clearPackList(cls):
         cls._selected_items_list.clear()
 
-    # @classmethod
     @staticmethod
     def getStandardConfig():
         return ['Box_Gluehlampe', 'Box_Wischblatt','Keilriemen_gross', 'Box_Bremsbacke', 'Keilriemen_klein','Box_Messwertgeber']
