@@ -54,17 +54,18 @@ It also contains the website which is used to get the user input.
 
 ## How to start only the website (with FeedbackService etc.) WITHOUT LLM
 
-custom launch File to do
+    cd && cd ros_ws && colcon build && source install/setup.bash && cd src/pkg_website_llm && cd launch && clear && ros2 launch launch_UserInterface_without_llm.py
 
 ## How to only the LLM
 
-cusotm launch File to do
+    cd && cd ros_ws && colcon build && source install/setup.bash && cd src/pkg_website_llm && cd launch && clear && ros2 launch launch_only_LLM.py
+
 
 
 ## How to request the User Input
 
 1. Connect to Docker
-2. enter on the terminal
+2. enter on the terminal && source first
    
 ros2 service call /LLM/user_interaction llm_interfaces/srv/UserInteraction {''}
 
