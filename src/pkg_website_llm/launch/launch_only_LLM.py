@@ -6,17 +6,17 @@ import os
 def generate_launch_description():
     return LaunchDescription([
         Node(
-            package='pkg_website_llm',
+            package='pkg_llm_docker',
             namespace='LLM',
-            executable='pack_item_server',
+            executable='llm_action_server',
             output='screen',
-            name='pack_item_server'
+            name='LLM1'
         ),
         Node(
             package='pkg_website_llm',
             namespace='LLM',
-            executable='image_saver',
+            executable='action_server_client',
             output='screen',
-            name='saveImageFromODTF'
+            name='LLM_ActionClient'
         ),
     ])

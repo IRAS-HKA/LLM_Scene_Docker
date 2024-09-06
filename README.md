@@ -31,7 +31,25 @@ It also contains the website which is used to get the user input.
 
 ## Start all services (Website, LLM, FeedbackService and UserInputNode)
 
-cd && cd ros_ws && colcon build && source install/setup.bash && cd src/pkg_website_llm && cd launch && clear && ros2 launch launch_all_services.py
+1. Start the container
+   
+   source start_docker.sh
+
+2. Build and source in the dependencies && ros2_ws folder (in this order)
+   
+    cd dependencies_ws
+    source install/setup.bash
+    colcon build && source install/setup.bash
+
+    and 
+
+    cd ros_ws
+    source install/setup.bash
+    colcon build && source install/setup.bash
+
+3. Run the corresponding launchFile
+
+    cd && cd ros_ws && colcon build && source install/setup.bash && cd src/pkg_website_llm && cd launch && clear && ros2 launch launch_all_services.py
 
 
 ## How to start only the website (with FeedbackService etc.) WITHOUT LLM
@@ -76,9 +94,9 @@ Server:
 5. python3 LLM_Action_Server.py 
 
 ### How to send a test request to the LLM
-ros2 action send_goal /llm_action_server llm_action_interfaces/action/LLM "{userinput: 'BEFEHL: Box_Wischblatt' }"
+ros2 action send_goal /LLM/llm_action_server llm_action_interfaces/action/LLM "{userinput: 'Box_Wischblatt' }"
 
 
 ## How to start the action server of the LLM
 
-ros2 action send_goal /llm_action_server llm_action_interfaces/action/LLM "{userinput: "Box_Wischblatt"}"
+ros2 action send_goal /LLM/llm_action_server llm_action_interfaces/action/LLM "{userinput: "Box_Wischblatt"}"

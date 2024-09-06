@@ -45,9 +45,9 @@ ARG CACHE_BUST
 RUN mkdir -p /home/$USER/dependencies_ws/src
 WORKDIR /home/$USER/dependencies_ws/src
 
-RUN git clone -b humble https://github.com/eshan-savla/object_detector_tensorflow.git
-RUN mv ./object_detector_tensorflow/ros/object_detector_tensorflow_interfaces . && \
-rm -rf ./object_detector_tensorflow
+#RUN git clone -b humble https://github.com/eshan-savla/object_detector_tensorflow.git
+#RUN mv ./object_detector_tensorflow/ros/object_detector_tensorflow_interfaces . && \
+#rm -rf ./object_detector_tensorflow
 
 # Packing Planning Interfaces
 RUN git clone --branch visualization https://github.com/SchmittAndreas/aip_packing_algorithm.git
