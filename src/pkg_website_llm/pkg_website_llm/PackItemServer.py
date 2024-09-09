@@ -4,7 +4,6 @@ import rclpy.duration
 from rclpy.node import Node
 from llm_interfaces.srv import SceneInterpretation
 from .SelectedItemsToPack import SelectedItems
-#from .UserInput import UserInput
 from .FileReadWriter import FileReadWriter
 
 class PackItemsService(Node):
