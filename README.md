@@ -27,18 +27,17 @@ To interact with the robot, ROS2 is used. The userinput as well as the llmoutput
 
 In total there are 4 packages created on its own in this docker container, the rest are imported from the other docker containers:
 
-UserFrontend/ Website : pkg_website_llm
+UserFrontend/ Website : *pkg_website_llm*
 
-LLM-Call/Pre-/PostProcessing: pkg_llm_docker
+LLM-Call/Pre-/PostProcessing: *pkg_llm_docker*
 
-ROS2 Interfaces to the other dockers: llm_interfaces
+ROS2 Interfaces to the other dockers: *llm_interfaces*
 
-ROS2 Action Interface used interally: llm_action_interfaces
+ROS2 Action Interface used interally: *llm_action_interfaces*
 
 ## Purpose of the Docker
 
 This container is running as a ROS2 Node and contains a Ollama installation with Mistral Nemo as a LLM.
-The website looks like this:
 
 
 UserInput: The user can chat, scenechat and send commands to the LLM.
@@ -114,24 +113,8 @@ Please not in the {}-brackets should be the ObjectDetections, so that the Websit
 The behaviour tree can access the UserInput as a string via a service. This is available as soon as the user has pressed the ‘Send’ button. 
 
 
-## How to start the Action Client and Server to send the user input to the LLM
-
-Client:
-1. Open New Terminal
-2. Connect to LLM_Docker
-3. colcon build && source install/setup.bash
-4. Navigate to the folder: cd src/pkg_website_llm/pkg_website_llm/
-5. python3 ActionClientToPreProcessing.py 
-
-Server:
-1. Open New Terminal
-2. Connect to LLM_Docker
-3. colcon build && source install/setup.bash
-4. Navigate to the folder: cd /src/pkg_llm_docker/pkg_llm_docker
-5. python3 LLM_Action_Server.py 
-
 ### How to send a test request to the LLM
-ros2 action send_goal /LLM/llm_action_server llm_action_interfaces/action/LLM "{userinput: 'Box_Wischblatt' }"
+ros2 action send_goal /LLM/llm_action_server llm_action_interfaces/action/LLM "{userinput: 'Box_Wischblatt'}"
 
 #### LLM Output (SceneInterpretation) Action: 
 
@@ -151,8 +134,10 @@ Due to the long calculation time of the LLM, the user could be tempted to send a
 
 ## How to change the used LLM
 
-1. Change it in StartOllama.sh -> line 9
-2. Change it in pkg_llm_docker OllamaInteraction.py 
+1. Search for compatible model on https://ollama.com/library 
+2. Change it in StartOllama.sh -> line 9
+3. Change it in pkg_llm_docker OllamaInteraction.py 
+   Chat and Generate-Function!
 ```python 
     # Chat functionality with Ollama API
     def getObjectFromScene(role, prompt):
