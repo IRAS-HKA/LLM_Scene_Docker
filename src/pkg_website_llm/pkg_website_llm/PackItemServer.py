@@ -4,7 +4,6 @@ import rclpy.duration
 from rclpy.node import Node
 from llm_interfaces.srv import SceneInterpretation
 from .SelectedItemsToPack import SelectedItems
-from .UserInput import UserInput
 from .FileReadWriter import FileReadWriter
 
 class PackItemsService(Node):
@@ -15,14 +14,14 @@ class PackItemsService(Node):
         self.get_logger().info('Service server is ready.')
     
     def formatOutput(self):
-
+        # Read the pack_list from the UserInput.json file
         temp = FileReadWriter.readUserInputFile('pack_list')
         cleaned_string = temp.replace("String value is: ", "").replace("'", "").replace(" ", "").replace("[", "").replace("]","").replace("\n", "")
 
-        # Den String in eine Liste aufteilen
+        # Split the string into a list
         result_list = cleaned_string.split(',')
 
-        # Entfernen der zusätzlichen einfachen Anführungszeichen um die Listenelemente
+        # Replace the single quotes in the list
         result_list = [item.strip("'") for item in result_list]
         
 
@@ -34,14 +33,14 @@ class PackItemsService(Node):
 
             if FileReadWriter.readUserInputFile('user_approval') == "True":
                 self.get_logger().info('Data available yet.')
+                
                 if "No Input" not in FileReadWriter.readUserInputFile('user_approval'):
                     self.get_logger().info('Data available yet.')
 
                     response.objects_to_pick = self.formatOutput()
                     self.get_logger().info("TYPE objects_to_pick: {}".format(type(response.objects_to_pick)))
                     self.get_logger().info("RESPONSE objects_to_pick: {}".format(response.objects_to_pick))
-                    #param.set_ros2_param('user_approval', 'False')
-                    #FileReadWriter.writeUserInputFile('user_approval', 'False')
+
                     FileReadWriter.writeUserInputInitially()
                     return response
             else:
@@ -57,10 +56,9 @@ class PackItemsService(Node):
     
     def spinNode(self):
 
-        self.get_logger().info('Bin in der Hilfsmethode!')
-        #rclpy.spin_once(self, timeout_sec=15.0)
+        self.get_logger().info('Running the Spinning Node-Method!')
+
         rclpy.spin(self)
-        self.get_logger().info('FERTIG mit Hilfsmethode!')
     
 
 

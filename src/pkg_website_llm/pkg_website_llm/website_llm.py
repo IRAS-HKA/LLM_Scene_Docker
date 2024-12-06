@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, jsonify
 from action_msgs.msg import GoalStatus
 import rclpy
 from rclpy.node import Node
-from .UserInput import UserInput
+#from .UserInput import UserInput
 from .WebsiteFeedbackData import WebsiteFeedbackData
 from .UserInputServiceSender import UserInputService 
 from .ActionClientToPreProcessing import LLMActionClient
@@ -28,7 +28,6 @@ static_dir = '/home/robot/ros_ws/src/pkg_website_llm/pkg_website_llm/static'
 
 # Create the Flask app with the correct template folder
 
-#app = Flask(__name__, template_folder='/home/robot/ros_ws/src/pkg_website_llm/pkg_website_llm/templates', static_url_path='/static')
 app = Flask(__name__, template_folder='/home/robot/ros_ws/src/pkg_website_llm/pkg_website_llm/templates', static_folder=static_dir, static_url_path='')
 
 
@@ -112,7 +111,6 @@ def button_disapprove():
     # Set User approval to False
     FileReadWriter.writeUserInputFile("user_approval", "False")
 
-
     return jsonify({"message": "Disapproved by user", "received": "Disapproval"})
 
 @app.route('/get_data')
@@ -136,6 +134,7 @@ def get_data():
             'node_list': node_list,
             'feedback_string': feedback_string,  
         }
+        
     except:
         
         data = {
@@ -157,12 +156,12 @@ def main():
     server.get_logger().info('LLMActionClient Node wurde erstellt')
 
     try:
+        
         app.run(host='127.0.0.1', port=8080)
 
     except KeyboardInterrupt:
-        print("Server wird beendet")
-
-            
+        
+        print("Server wird beendet")    
         server.destroy_node() 
         rclpy.shutdown()
 

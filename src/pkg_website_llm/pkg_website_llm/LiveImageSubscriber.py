@@ -15,16 +15,24 @@ class ImageSaver(Node):
             '/detection_node/result_image',
             self.listener_callback,
             10)
-        self.subscription  # prevent unused variable warning
+        self.subscription  
         self.bridge = CvBridge()
-        self.save_path = os.path.join(os.path.expanduser('~'), 'ros_ws', 'src', 'pkg_website_llm', 'pkg_website_llm', 'static' )  # Change this path as needed
+        self.save_path = os.path.join(os.path.expanduser('~'), 'ros_ws', 'src', 'pkg_website_llm', 'pkg_website_llm', 'static' )  
         os.makedirs(self.save_path, exist_ok=True)
-
+        
+        
+    
     def listener_callback(self, msg):
+        
+        # Convert the ROS Image message to an OpenCV image
         cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S%f")
+        
+        # Overwrite the existing image with the timestamp as the name
         image_name = "Hintergrund.png"
         image_path = os.path.join(self.save_path, image_name)
+        
+        # Save the image and wait for 10 seconds
         cv2.imwrite(image_path, cv_image)
         self.get_logger().info(f'Saved image to {image_path}')
         time.sleep(10)

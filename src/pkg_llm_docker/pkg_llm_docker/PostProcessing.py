@@ -4,6 +4,8 @@ import json
 
 class PostProcessing:
 
+    # This method is used when the respone is nit easy to parse due the special array forms or dictionaries in arrays
+    # Then it checks for the objects of the material list in German or English and returns a list of the found objects
     def formatToDict(content):
         print("---------------------------------------")
         print("Type of content:",type(content))
@@ -22,34 +24,25 @@ class PostProcessing:
                 search_objects_eng = ['Box_Glowlamp', 'V-belt_large','Box_Wipingblade', 'V-belt_small', 'Bag','Box_Measurementtransmitter']
                 
                 combined_search_objects = search_objects + search_objects_eng
-                # Ergebnisliste der gefundenen Strings
+                
+                # Result list of found objects
                 found_objects = []
 
-                # Über die Liste von Such-Strings iterieren und prüfen, ob sie im langen Satz vorkommen
+                # Check if String is available
                 for s in combined_search_objects:
                     if s in content:
                         found_objects.append(s)
 
-                # Ergebnisse anzeigen
                 print("Gefundene Objekte:", found_objects)
                 return found_objects    
             
-            # elif (type(content) == json):
-            #     content_json = json.loads(content["message"]["content"])
-            #     name = json.loads(content_json["name"])
-            #     print("Name", name)
-            #     pass
-            
-            # else: 
-            #     list_all_items = ['Box_Gluehlampe', 'Box_Wischblatt','Keilriemen_gross', 'Box_Bremsbacke', 'Keilriemen_klein','Box_Messwertgeber']
-            #     found_items_llm = [wort for wort in list_all_items if wort in content]
-            #     print("found_items_llm",found_items_llm)
-            #     return found_items_llm
+
             
         except Exception as e:
             print("*******")
             print("Conversion to dictionary failed")
-            print("Fehler:",e)
+            print("Error:",e)
+            print("*******")
             return "No content found"
     
     

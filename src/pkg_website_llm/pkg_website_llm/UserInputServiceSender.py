@@ -40,7 +40,6 @@ class UserInputService(Node):
     
     def shutdown_node(self):
         rclpy.shutdown()
-        self.get_logger().info('Service destroyed: %s' % UserInput.getUserInput())
 
 
 def main(args=None):

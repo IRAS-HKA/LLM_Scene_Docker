@@ -35,6 +35,7 @@ setup(
             'delete_parameter = pkg_website_llm.DeleteParameterService:main',
             'pack_item_server = pkg_website_llm.PackItemServer:main',
             'image_saver = pkg_website_llm.LiveImageSubscriber:main',
+            'action_server_client = pkg_website_llm.ActionClientToPreProcessing:main',
         ],
     },
 )
