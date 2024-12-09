@@ -1,6 +1,7 @@
 # Custom
 .idea/
 .vscode/
+src/pkg_website_llm/pkg_website_llm/static/Hintergrund.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
