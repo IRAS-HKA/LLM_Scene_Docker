@@ -8,10 +8,9 @@ def generate_launch_description():
         Node(
             package='pkg_website_llm',
             namespace='LLM',
-            executable='param_setter',
+            executable='user_input_service',
             output='screen',
-            name='Parameter_Setter'
-        ),
-             
+            name='user_input_service'
+        )        
 
     ])

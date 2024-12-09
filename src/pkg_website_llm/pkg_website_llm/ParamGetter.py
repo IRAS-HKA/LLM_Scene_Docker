@@ -9,7 +9,6 @@ class ParamGetter:
         command = ['ros2', 'node', 'list']
         
         try:
-            # Den Befehl ausführen und das Ergebnis erfassen
             result = subprocess.run(command, capture_output=True, text=True, check=True)
             print(command)
             if node_name in result.stdout:
@@ -18,7 +17,6 @@ class ParamGetter:
                 return False
 
         except subprocess.CalledProcessError as e:
-                # Fehlerbehandlung
             print(f"Error executing command: {e}")
             print(f"stderr: {e.stderr}")
 
@@ -28,7 +26,6 @@ class ParamGetter:
         while(self.checkIfParamIsInUse()):
             time.sleep(0.500) 
         try:
-            # Den Befehl ausführen und das Ergebnis erfassen
             result = subprocess.run(command, capture_output=True, text=True, check=True)
             
             list_nodes = []
@@ -54,7 +51,6 @@ class ParamGetter:
         
         
         except subprocess.CalledProcessError as e:
-                # Fehlerbehandlung
             print(f"Error executing command: {e}")
             print(f"stderr: {e.stderr}")
         
@@ -62,10 +58,8 @@ class ParamGetter:
 
     def checkIfParamIsInUse(self):
         try:
-            # Führe das ps-Kommando aus und überprüfe die Ausgabe
             result = subprocess.run(["ps", "aux"], capture_output=True, text=True, check=True)
         
-            # Prüfe, ob "ros2 param get" in der Ausgabe enthalten ist
             if "ros2 param get" in result.stdout or "ros2 param set" in result.stdout:
                 return True
             else:
@@ -81,16 +75,12 @@ class ParamGetter:
         while(self.checkIfParamIsInUse() or not self.checkIfNodeAvailable("Parameter_Setter")):
             time.sleep(0.500) 
             
-        # Der genaue Terminalaufruf
         command = ['ros2', 'param', 'get', '/LLM/Parameter_Setter', var_name]
 
         try:
-            # Den Befehl ausführen und das Ergebnis erfassen
-            result = subprocess.run(command, capture_output=True, text=True, check=True)
-                    
-
-            # Falls notwendig, können Sie auch das Ergebnis zurückgeben
+            result = subprocess.run(command, capture_output=True, text=True, check=True)        
             return result.stdout
+        
         except subprocess.CalledProcessError as e:
 
             print(f"Error executing command: {e}")
@@ -101,20 +91,17 @@ class ParamGetter:
         while(self.checkIfParamIsInUse() or not self.checkIfNodeAvailable("Parameter_Setter")):
             time.sleep(0.500)
              
-        # Der genaue Terminalaufruf
         command = ['ros2', 'param', 'set', '/LLM/Parameter_Setter', var_name, value]
 
         time.sleep(0.30)
 
         try:
-            # Den Befehl ausführen und das Ergebnis erfassen
             result = subprocess.run(command, capture_output=True, text=True, check=True)
 
-            # Falls notwendig, können Sie auch das Ergebnis zurückgeben
             return result.stdout
                 
         except subprocess.CalledProcessError as e:
-            # Fehlerbehandlung
+
             print(f"Error executing command: {e}")
             print(f"stderr: {e.stderr}")
 

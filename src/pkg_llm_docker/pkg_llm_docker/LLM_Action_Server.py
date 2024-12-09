@@ -47,17 +47,14 @@ class LLMActionServer(Node):
             self.listener_callback,
             10, callback_group=self.subscription_callback_group)
         self.subscription
-        self.detections = []# prevent unused variable warning
-        self.get_logger().info('Subscriber wurde initalisiert')
+        self.detections = []
+        self.get_logger().info('Subscriber was initalised')
     
     def listener_callback(self, msg):
-        #self.get_logger().info('I heard: "%s"' % msg.detections)
-        #self.get_logger().info('Die Nachricht wurde empfangen')
- 
+        # check with the lock if the detections are already being processed
         with self.detections_lock:
             self.detections = msg.detections
-        #prompt = PreProcessing.formatPrompt(detections, "")
-        #MainLLM.startLLM(prompt)
+
         
     def execute_callback(self, goal_handle):
         # Define instance of PreProcessing
@@ -75,31 +72,28 @@ class LLMActionServer(Node):
         goal_handle.publish_feedback(feedback_msg)
         
         
-
+        # Check which user command and with language is selected
         user_command = FileReadWriter.readUserInputFile('user_command')
         sel_language = FileReadWriter.readUserInputFile('sel_language')
         
         self.get_logger().info('sel_language: {0}'.format(sel_language))
         
+        # Format the prompt to be used in the LLM
         prompt = preprocessing_unit.formatPrompt("",user_input, str(user_command), str(sel_language))
-        
-        # Create Prompt for the LLM (PreProcessing done) and send feedback after 50 %
-        # if "BEFEHL" in user_input:
-        #     prompt = preprocessing_unit.formatPrompt("",user_input, "Generate")
-        # else:
-        #     prompt = preprocessing_unit.formatPrompt("",user_input, "Chat")
-        
+                
         self.get_logger().info('Prompt: {0}'.format(prompt))
-        self.get_logger().info('Prompt mit Anweisung: {0}'.format(user_command))
+        self.get_logger().info('User Command: {0}'.format(user_command))
         
+        # If the preprocessing was successful, send feedback of 50 % progress
         feedback_msg.progress = 50
         self.get_logger().info('Feedback: {0}'.format(feedback_msg.progress))
         self.get_logger().info('LLM was started')
         goal_handle.publish_feedback(feedback_msg)
         
-        # Start the LLM
+        # Start the LLM with the formatted prompt
         result_dict = MainLLM.startLLM(prompt, user_input,str(user_command))
         
+        # send the feedback
         goal_handle.publish_feedback(feedback_msg)
         goal_handle.succeed()
 
@@ -107,6 +101,7 @@ class LLMActionServer(Node):
         result.llmoutput = str(result_dict)
         
         
+        # In order to print the results on the website in the correct language, the result is translated back to German or Englisch
         try:
             # Translate back to German
             if sel_language == "en":
@@ -116,8 +111,9 @@ class LLMActionServer(Node):
             mod_user_input = "'" + str(result_dict)  + "'"
 
             FileReadWriter.writeUserInputFile('pack_list', mod_user_input)
+            
         except Exception as e:
-            self.get_logger().error(f'Saving parameter pack_list failed {e}')
+            self.get_logger().error(f'Translation of result failed, check  if UserInput.json is correct {e}')
         
         self.get_logger().info('LLM was executed successfully!')
         self.get_logger().info('Result: {0}'.format(result.llmoutput))
@@ -126,26 +122,19 @@ class LLMActionServer(Node):
 
 
 def main(args=None):
-    print("[LLM Action Server] MAIN")
     rclpy.init(args=args)
 
     action_server = LLMActionServer()
-    action_server.get_logger().info('Action Server erstellt')
+    action_server.get_logger().info('Action Server started')
     rclpy.spin(action_server)
     
-    #executor = MultiThreadedExecutor()
-    action_server.get_logger().info('executor erstellt')
+    action_server.get_logger().info('Created executor ')
 
-    #rclpy.spin(action_server, executor=executor)
-    action_server.get_logger().info('Spin beginnt')
+    action_server.get_logger().info('Spin has started')
 
     action_server.destroy()
-    action_server.get_logger().info('Action Server beendet')
+    action_server.get_logger().info('Action Server and ACTION destroyed')
 
-
-    action_server.get_logger().info('ACTION beendet')
-    
-    action_server.get_logger().info('Nachm Shutdown von ACTION')
     action_server.destroy_node()
     rclpy.shutdown()
 
