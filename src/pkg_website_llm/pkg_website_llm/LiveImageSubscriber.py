@@ -40,9 +40,17 @@ class ImageSaver(Node):
 def main(args=None):
     rclpy.init(args=args)
     image_saver = ImageSaver()
-    rclpy.spin(image_saver)
-    image_saver.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(image_saver)       
+
+    except KeyboardInterrupt:
+        print("Node stopped successfully")
+    
+    try:
+        image_saver.destroy_node()  
+        rclpy.shutdown()
+    except:
+        print("shutdown already called")
 
 if __name__ == '__main__':
     main()

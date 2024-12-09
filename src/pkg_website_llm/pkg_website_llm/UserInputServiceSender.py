@@ -47,7 +47,16 @@ def main(args=None):
 
     service = UserInputService()
     service.get_logger().info('Service was started and spins now')
-    rclpy.spin(service)
+    try:
+        rclpy.spin(service)       
+
+    except KeyboardInterrupt:
+        print("Node stopped successfully")
+    
+    try:
+        rclpy.shutdown()
+    except:
+        print("shutdown already called")
 
 
     

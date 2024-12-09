@@ -55,9 +55,16 @@ def main():
 
     minimal_service = MinimalService()
 
-    rclpy.spin(minimal_service)
+    try:
+        rclpy.spin(minimal_service)       
 
-    rclpy.shutdown()
+    except KeyboardInterrupt:
+        print("Node stopped successfully")
+
+    try:
+        rclpy.shutdown()
+    except:
+        print("shutdown already called")
 
 
 if __name__ == '__main__':

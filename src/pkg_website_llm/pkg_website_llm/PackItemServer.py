@@ -67,8 +67,15 @@ class PackItemsService(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = PackItemsService()
-    rclpy.spin(node)
-    rclpy.shutdown()
+    try:
+        rclpy.spin(node)       
+
+    except KeyboardInterrupt:
+        print("Node stopped successfully")
+    try:
+        rclpy.shutdown()
+    except:
+        print("shutdown already called")
 
 if __name__ == '__main__':
     main()

@@ -42,12 +42,19 @@ def main(args=None):
 
     my_subscriber = DetectionSubscriber()
 
-    rclpy.spin(my_subscriber)
+    try:
+        rclpy.spin(my_subscriber)       
+
+    except KeyboardInterrupt:
+        print("Node stopped successfully")
 
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
-    my_subscriber.destroy_node()
-    rclpy.shutdown()
+    try:
+        my_subscriber.destroy_node()    
+        rclpy.shutdown()
+    except:
+        print("shutdown already called")
 if __name__ == '__main__':
     main()

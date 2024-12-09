@@ -126,17 +126,25 @@ def main(args=None):
 
     action_server = LLMActionServer()
     action_server.get_logger().info('Action Server started')
-    rclpy.spin(action_server)
     
-    action_server.get_logger().info('Created executor ')
+    try:
+        rclpy.spin(action_server)       
+        action_server.get_logger().info('Created executor ')
 
-    action_server.get_logger().info('Spin has started')
+        action_server.get_logger().info('Spin has started')
 
-    action_server.destroy()
-    action_server.get_logger().info('Action Server and ACTION destroyed')
+    except KeyboardInterrupt:
+        print("Node stopped successfully")
+    
 
-    action_server.destroy_node()
-    rclpy.shutdown()
+    try:
+        action_server.destroy()
+        # action_server.get_logger().info('Action Server and ACTION destroyed')
+
+        action_server.destroy_node()
+        rclpy.shutdown()
+    except:
+        print("shutdown already called")
 
 
 
