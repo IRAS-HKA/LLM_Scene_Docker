@@ -20,6 +20,7 @@ docker run \
     --privileged \
     --rm \
     -e DISPLAY=$DISPLAY \
+    --env-file .env \
     --volume=/dev:/dev \
     --volume=$SRC_HOST:$SRC_CONTAINER:rw \
     --network=host \
