@@ -4,6 +4,7 @@
 src/pkg_website_llm/pkg_website_llm/static/Hintergrund.png
 src/pkg_website_llm/pkg_website_llm/static/PackPlanBild.png
 src/pkg_website_llm/pkg_website_llm/WebsiteFeedback.json
+src/pkg_website_llm/pkg_website_llm/UserInput.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
