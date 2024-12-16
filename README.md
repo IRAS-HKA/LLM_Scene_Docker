@@ -135,7 +135,7 @@ Due to the long calculation time of the LLM, the user could be tempted to send a
 ## How to change the used LLM
 
 1. Search for compatible model on https://ollama.com/library 
-2. Change it in StartOllama.sh -> line 9
+2. Change it in start_ollama.sh -> line 9
 3. Change it in pkg_llm_docker OllamaInteraction.py 
    Chat and Generate-Function!
 ```python 

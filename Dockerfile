@@ -87,7 +87,7 @@ RUN echo "source /home/$USER/ros_ws/install/setup.bash" >> /home/$USER/.bashrc
 ##############################################################################
 ##                                 autostart                                ##
 ##############################################################################
-COPY ./startOllama.sh /home/$USER/ros_ws/startOllama.sh
+COPY ./start_ollama.sh /home/$USER/ros_ws/start_ollama.sh
 
 RUN sudo sed --in-place --expression \
     '$isource "/home/$USER/ros_ws/install/setup.bash"' \
@@ -102,7 +102,7 @@ RUN sudo sed --in-place --expression \
     /ros_entrypoint.sh
 
 RUN sudo sed --in-place --expression \
-    '$i./startOllama.sh' \
+    '$i./start_ollama.sh' \
     /ros_entrypoint.sh
 
 #RUN ollama serve & sleep 5 && ollama run mistral-nemo
